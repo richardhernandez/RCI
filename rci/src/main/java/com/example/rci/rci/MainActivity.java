@@ -73,7 +73,7 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-// Custom Files go here - Chase
+// Custom Files go here - Chase Dumbston
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
