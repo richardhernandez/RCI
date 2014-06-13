@@ -1,1 +1,1 @@
-include ':rci'
+include ':rci', ':facebook'
