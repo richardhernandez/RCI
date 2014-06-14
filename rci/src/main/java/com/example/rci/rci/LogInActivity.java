@@ -4,16 +4,44 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 
 public class LogInActivity extends Activity {
+
+    private EditText email = null;
+    private EditText password = null;
+    private Button login;
+    private ImageButton facebook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+        email = (EditText)findViewById(R.id.emailInputText);
+        password = (EditText)findViewById(R.id.passwordInputText);
+        login = (Button)findViewById(R.id.button1);
+        facebook = (ImageButton)findViewById(R.id.imageButton);
     }
 
+    //Function to make login work
+    public void login(View view) {
+        if (email.getText().toString().equals("gburdell@gatech.edu") &&
+                password.getText().toString().equals("buzz")) {
+            Toast.makeText(getApplicationContext(), "Logging In...", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Wrong Credentials", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //Function to make facebook login work
+    public void PullFacebookData(View view) {
+        Toast.makeText(getApplicationContext(), "Logging In With Facebook...", Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

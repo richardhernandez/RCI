@@ -8,20 +8,85 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.example.rci.rci.LogInActivity">
 
+    //Log In Text
     <TextView
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:text="@string/title_log_in"
+        android:layout_width="350dp"
+        android:layout_height="100dp"
+        android:id="@+id/titleLogIn"
+        android:textSize="75sp"
+        android:gravity="center" />
 
 
     <ImageButton
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:id="@+id/imageButton"
-        android:layout_marginBottom="60dp"
         android:background="@drawable/fb_icon_325x325"
+        android:scaleType="fitXY"
+        android:layout_marginBottom="41dp"
+        android:onClick="PullFacebookData"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:scaleType="fitXY" />
+        android:layout_toRightOf="@+id/emailText" />
+
+    //Email input text
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/emailInputText"
+        android:layout_alignBottom="@+id/emailText"
+        android:layout_alignParentRight="true" />
+
+    //Text that says email
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/email"
+        android:id="@+id/emailText"
+        android:layout_below="@+id/titleLogIn"
+        android:layout_marginTop="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    // Password input text
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/passwordInputText"
+        android:layout_below="@+id/emailInputText"
+        android:layout_alignRight="@+id/emailInputText"
+        android:layout_alignEnd="@+id/emailInputText"
+        android:layout_marginTop="84dp"
+        android:layout_alignLeft="@+id/emailInputText"
+        android:layout_alignStart="@+id/emailInputText" />
+
+    // Text that says password
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/password"
+        android:id="@+id/passwordText"
+        android:layout_alignBottom="@+id/passwordInputText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    // Log in button
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_log_in"
+        android:id="@+id/button1"
+        android:layout_alignBottom="@+id/imageButton"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="25dp"
+        android:onClick="login"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
