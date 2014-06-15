@@ -1,7 +1,10 @@
 package com.example.rci.rci;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,8 +16,8 @@ import android.widget.Toast;
 
 public class LogInActivity extends Activity {
 
-    private EditText email = null;
-    private EditText password = null;
+    private EditText email;
+    private EditText password;
     private Button login;
     private ImageButton facebook;
 
@@ -33,6 +36,15 @@ public class LogInActivity extends Activity {
         if (email.getText().toString().equals("gburdell@gatech.edu") &&
                 password.getText().toString().equals("buzz")) {
             Toast.makeText(getApplicationContext(), "Logging In...", Toast.LENGTH_SHORT).show();
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("loggedIn", true);
+            editor.commit();
+
+            Intent intent = new Intent(LogInActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
         } else {
             Toast.makeText(getApplicationContext(), "Wrong Credentials", Toast.LENGTH_SHORT).show();
         }
