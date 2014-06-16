@@ -64,6 +64,8 @@ public class MainActivity extends Activity
                 newFragment = new ScanFragment();
                 break;
             case 1:
+                newFragment = new Messages();
+                break;
             case 2:
                 newFragment = new Fragment();
                 Toast.makeText(getApplicationContext(), "Not implemented yet", Toast.LENGTH_SHORT).show();
