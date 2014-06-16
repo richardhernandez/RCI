@@ -52,7 +52,10 @@ public class LogInActivity extends Activity {
 
     //Function to make facebook login work
     public void PullFacebookData(View view) {
-        Toast.makeText(getApplicationContext(), "Logging In With Facebook...", Toast.LENGTH_SHORT).show();
+        email.setText("gburdell@gatech.edu");
+        password.setText("buzz");
+        Toast.makeText(getApplicationContext(), "Click Log in to Proceed", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
