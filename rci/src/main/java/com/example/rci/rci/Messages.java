@@ -85,6 +85,7 @@ public class Messages extends Fragment {
             @Override
             public void onClick(View view) {
                 _messageText.setText(_messageText.getText().toString().concat("\nGeorge: ").concat(_message.getText().toString()));
+                _message.setText("");
             }
         });
 

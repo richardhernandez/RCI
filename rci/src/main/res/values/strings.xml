@@ -22,5 +22,6 @@
     <string name="current_channel_text">Current Channel:</string>
     <string name="optimal_channel_text">Optimal Channel:</string>
     <string name="action_logout">Log out</string>
+    <string name="messages_send_text">Send</string>
 
 </resources>
