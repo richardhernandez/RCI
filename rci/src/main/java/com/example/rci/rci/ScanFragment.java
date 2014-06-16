@@ -1,13 +1,24 @@
 package com.example.rci.rci;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -30,6 +41,13 @@ public class ScanFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private WifiManager mainWifi;
+    private WifiReceiver receiverWifi;
+    List<ScanResult> wifiList;
+
+    StringBuilder sb = new StringBuilder();
+    private final Handler handler = new Handler();
 
     /**
      * Use this factory method to create a new instance of
@@ -59,13 +77,35 @@ public class ScanFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        //Set up wifi stuff here
+        mainWifi = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
+
+        receiverWifi = new WifiReceiver();
+        getActivity().registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+
+        if(mainWifi.isWifiEnabled()==false)
+        {
+            mainWifi.setWifiEnabled(true);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_scan, container, false);
+        View V = inflater.inflate(R.layout.fragment_scan, container, false);
+
+        Button scan = (Button)V.findViewById(R.id.scan_scannow);
+        scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity().getApplicationContext(), "Scanning", Toast.LENGTH_SHORT).show();
+                mainWifi.startScan();
+                doInback();
+            }
+        });
+
+        return V;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -90,6 +130,45 @@ public class ScanFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void doInback()
+    {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run()
+            {
+                // TODO Auto-generated method stub
+                mainWifi = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
+                receiverWifi = new WifiReceiver();
+                getActivity().registerReceiver(receiverWifi, new IntentFilter(
+                        WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+                mainWifi.startScan();
+                doInback();
+            }
+        }, 1000);
+
+    }
+
+    class WifiReceiver extends BroadcastReceiver
+    {
+        public void onReceive(Context c, Intent intent)
+        {
+
+            ArrayList<String> connections=new ArrayList<String>();
+            ArrayList<Float> Signal_Strength= new ArrayList<Float>();
+
+            sb = new StringBuilder();
+            List<ScanResult> wifiList;
+            wifiList = mainWifi.getScanResults();
+            for(int i = 0; i < wifiList.size(); i++)
+            {
+
+                connections.add(wifiList.get(i).SSID);
+            }
+
+
+        }
     }
 
     /**

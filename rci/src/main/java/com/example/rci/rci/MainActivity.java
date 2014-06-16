@@ -41,12 +41,6 @@ public class MainActivity extends Activity
      */
     private CharSequence mTitle;
 
-    WifiManager mainWifi;
-    WifiReceiver receiverWifi;
-    List<ScanResult> wifiList;
-    StringBuilder sb = new StringBuilder();
-    private final Handler handler = new Handler();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,18 +61,6 @@ public class MainActivity extends Activity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-
-        //Set up wifi stuff here
-        mainWifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-
-        receiverWifi = new WifiReceiver();
-        registerReceiver(receiverWifi, new IntentFilter(
-                WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-        if(mainWifi.isWifiEnabled()==false)
-        {
-            mainWifi.setWifiEnabled(true);
-        }
-
     }
 
     @Override
@@ -171,50 +153,5 @@ public class MainActivity extends Activity
 
     }
 
-    public void scan(View view) {
-        Toast.makeText(getApplicationContext(), "Scanning", Toast.LENGTH_SHORT).show();
-        mainWifi.startScan();
-        doInback();
-    }
 
-    public void doInback()
-    {
-        handler.postDelayed(new Runnable() {
-
-            @Override
-            public void run()
-            {
-                // TODO Auto-generated method stub
-                mainWifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-
-                receiverWifi = new WifiReceiver();
-                registerReceiver(receiverWifi, new IntentFilter(
-                        WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-                mainWifi.startScan();
-                doInback();
-            }
-        }, 1000);
-
-    }
-
-    class WifiReceiver extends BroadcastReceiver
-    {
-        public void onReceive(Context c, Intent intent)
-        {
-
-            ArrayList<String> connections=new ArrayList<String>();
-            ArrayList<Float> Signal_Strength= new ArrayList<Float>();
-
-            sb = new StringBuilder();
-            List<ScanResult> wifiList;
-            wifiList = mainWifi.getScanResults();
-            for(int i = 0; i < wifiList.size(); i++)
-            {
-
-                connections.add(wifiList.get(i).SSID);
-            }
-
-
-        }
-    }
 }
