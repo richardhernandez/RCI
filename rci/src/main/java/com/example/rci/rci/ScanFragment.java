@@ -5,19 +5,26 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -41,6 +48,7 @@ public class ScanFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private TextView currentChannel, optimalChannel;
 
     private WifiManager mainWifi;
     private WifiReceiver receiverWifi;
@@ -66,6 +74,7 @@ public class ScanFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     public ScanFragment() {
         // Required empty public constructor
     }
@@ -78,14 +87,16 @@ public class ScanFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        currentChannel = (TextView)getActivity().findViewById(R.id.current_channel);
+        optimalChannel = (TextView)getActivity().findViewById(R.id.optimal_channel);
+
         //Set up wifi stuff here
         mainWifi = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
 
         receiverWifi = new WifiReceiver();
         getActivity().registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
-        if(mainWifi.isWifiEnabled()==false)
-        {
+        if(mainWifi.isWifiEnabled()==false) {
             mainWifi.setWifiEnabled(true);
         }
     }
@@ -100,8 +111,8 @@ public class ScanFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getActivity().getApplicationContext(), "Scanning", Toast.LENGTH_SHORT).show();
-                mainWifi.startScan();
-                doInback();
+                // mainWifi.startScan();
+                // doInback();
             }
         });
 
@@ -136,9 +147,7 @@ public class ScanFragment extends Fragment {
     {
         handler.postDelayed(new Runnable() {
             @Override
-            public void run()
-            {
-                // TODO Auto-generated method stub
+            public void run() {
                 mainWifi = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
                 receiverWifi = new WifiReceiver();
                 getActivity().registerReceiver(receiverWifi, new IntentFilter(
@@ -152,22 +161,46 @@ public class ScanFragment extends Fragment {
 
     class WifiReceiver extends BroadcastReceiver
     {
-        public void onReceive(Context c, Intent intent)
-        {
+        private ArrayList<String> connections;
+        private ArrayList<Float> signalStrength;
+        private List<ScanResult> wifiList;
 
-            ArrayList<String> connections=new ArrayList<String>();
-            ArrayList<Float> Signal_Strength= new ArrayList<Float>();
-
+        public void onReceive(Context c, Intent intent) {
+            connections = new ArrayList<String>();
+            signalStrength = new ArrayList<Float>();
             sb = new StringBuilder();
-            List<ScanResult> wifiList;
             wifiList = mainWifi.getScanResults();
-            for(int i = 0; i < wifiList.size(); i++)
-            {
 
+            for(int i = 0; i < wifiList.size(); i++) {
                 connections.add(wifiList.get(i).SSID);
             }
+        }
 
+        public ArrayList<String> getConnections() {
+            return this.connections;
+        }
 
+        public ArrayList<Float> getSignalStrength() {
+            return this.signalStrength;
+        }
+
+        public int getChannel(String connection) {
+
+            return -1;
+        }
+
+        public String getCurrentSsid(Context context) {
+            String ssid = null;
+            ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            if (networkInfo.isConnected()) {
+                final WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                final WifiInfo connectionInfo = wifiManager.getConnectionInfo();
+                if (connectionInfo != null && !TextUtils.isEmpty(connectionInfo.getSSID())) {
+                    ssid = connectionInfo.getSSID();
+                }
+            }
+            return ssid;
         }
     }
 
