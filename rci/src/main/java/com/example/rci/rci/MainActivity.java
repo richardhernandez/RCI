@@ -5,10 +5,14 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +21,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 
 
 public class MainActivity extends Activity
@@ -31,6 +40,12 @@ public class MainActivity extends Activity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+
+    WifiManager mainWifi;
+    WifiReceiver receiverWifi;
+    List<ScanResult> wifiList;
+    StringBuilder sb = new StringBuilder();
+    private final Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +67,18 @@ public class MainActivity extends Activity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        //Set up wifi stuff here
+        mainWifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+
+        receiverWifi = new WifiReceiver();
+        registerReceiver(receiverWifi, new IntentFilter(
+                WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        if(mainWifi.isWifiEnabled()==false)
+        {
+            mainWifi.setWifiEnabled(true);
+        }
+
     }
 
     @Override
@@ -137,5 +164,52 @@ public class MainActivity extends Activity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    public void scan(View view) {
+        Toast.makeText(getApplicationContext(), "Scanning", Toast.LENGTH_SHORT).show();
+        mainWifi.startScan();
+        doInback();
+    }
+
+    public void doInback()
+    {
+        handler.postDelayed(new Runnable() {
+
+            @Override
+            public void run()
+            {
+                // TODO Auto-generated method stub
+                mainWifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+
+                receiverWifi = new WifiReceiver();
+                registerReceiver(receiverWifi, new IntentFilter(
+                        WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+                mainWifi.startScan();
+                doInback();
+            }
+        }, 1000);
+
+    }
+
+    class WifiReceiver extends BroadcastReceiver
+    {
+        public void onReceive(Context c, Intent intent)
+        {
+
+            ArrayList<String> connections=new ArrayList<String>();
+            ArrayList<Float> Signal_Strength= new ArrayList<Float>();
+
+            sb = new StringBuilder();
+            List<ScanResult> wifiList;
+            wifiList = mainWifi.getScanResults();
+            for(int i = 0; i < wifiList.size(); i++)
+            {
+
+                connections.add(wifiList.get(i).SSID);
+            }
+
+
+        }
     }
 }
