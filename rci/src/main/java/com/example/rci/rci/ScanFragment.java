@@ -107,4 +107,5 @@ public class ScanFragment extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
+
 }
