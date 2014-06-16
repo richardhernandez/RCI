@@ -18,7 +18,8 @@
         </activity>
         <activity
             android:name=".LogInActivity"
-            android:label="@string/title_log_in" >
+            android:label="@string/title_log_in"
+            android:windowSoftInputMode="adjustResize">
         </activity>
     </application>
 
