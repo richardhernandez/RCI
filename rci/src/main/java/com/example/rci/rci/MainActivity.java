@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 
 public class MainActivity extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, ScanFragment.OnFragmentInteractionListener {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, ScanFragment.OnFragmentInteractionListener, Messages.OnFragmentInteractionListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -136,6 +136,11 @@ public class MainActivity extends Activity
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onMessagesInteraction(Uri uri) {
 
     }
 }

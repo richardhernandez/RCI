@@ -7,7 +7,10 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 
 /**
@@ -29,6 +32,9 @@ public class Messages extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private TextView _messageText;
+    private EditText _message;
+
     private OnFragmentInteractionListener mListener;
 
     /**
@@ -46,6 +52,7 @@ public class Messages extends Fragment {
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+
         return fragment;
     }
     public Messages() {
@@ -67,13 +74,27 @@ public class Messages extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_messages, container, false);
+
+        View V = inflater.inflate(R.layout.fragment_messages, container, false);
+
+        _messageText = (TextView)V.findViewById(R.id.messageText);
+        _message = (EditText)V.findViewById(R.id.messages_message);
+
+        Button send = (Button)V.findViewById(R.id.messages_send);
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                _messageText.setText(_messageText.getText().toString().concat("\nGeorge: ").concat(_message.getText().toString()));
+            }
+        });
+
+        return V;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onMessagesInteraction(uri);
         }
     }
 
@@ -106,7 +127,7 @@ public class Messages extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+        public void onMessagesInteraction(Uri uri);
     }
 
 }
