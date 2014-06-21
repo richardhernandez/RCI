@@ -74,6 +74,7 @@ public class Messages extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        // Pull messages from server here per person
 
         View V = inflater.inflate(R.layout.fragment_messages, container, false);
 

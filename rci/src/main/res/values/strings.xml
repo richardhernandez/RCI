@@ -23,5 +23,10 @@
     <string name="optimal_channel_text">Optimal Channel:</string>
     <string name="action_logout">Log out</string>
     <string name="messages_send_text">Send</string>
+    <string-array name="friends">
+        <item>Chase</item>
+        <item>Dawson</item>
+        <item>Richard</item>
+    </string-array>
 
 </resources>

@@ -73,7 +73,8 @@ public class MainActivity extends Activity
                 newFragment = new ScanFragment();
                 break;
             case 1:
-                newFragment = new Messages();
+                //newFragment = new Messages();
+                newFragment = new MessagesListFragment();
                 break;
             case 2:
                 newFragment = new Fragment();
