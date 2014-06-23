@@ -13,9 +13,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.facebook.UiLifecycleHelper;
-
-
 public class LogInActivity extends Activity {
     private EditText email;
     private EditText password;
