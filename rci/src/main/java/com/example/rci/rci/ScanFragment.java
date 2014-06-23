@@ -112,8 +112,13 @@ public class ScanFragment extends Fragment {
         if(!mainWifi.isWifiEnabled()) {
             mainWifi.setWifiEnabled(true);
         }
+    }
 
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i("PAUSING!!!!!!!!", "");
+        //mainWifi.disconnect();
     }
 
     @Override
@@ -233,7 +238,7 @@ public class ScanFragment extends Fragment {
                 connections.add(sr.SSID);
                 //Toast.makeText(getActivity().getApplicationContext(), connections.get(i), Toast.LENGTH_SHORT).show();
                 if (i == 0) {
-                    fq = sr.frequency;
+                    fq = getChannel(sr.frequency);
                 }
             }
         }
@@ -280,5 +285,25 @@ public class ScanFragment extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
+    public int getChannel(int frequency) {
+        int channel = 0;
+        if (frequency == 2412) channel = 1;
+        else if (frequency == 2417) channel = 2;
+        else if (frequency == 2422) channel = 3;
+        else if (frequency == 2427) channel = 4;
+        else if (frequency == 2432) channel = 5;
+        else if (frequency == 2437) channel = 6;
+        else if (frequency == 2442) channel = 7;
+        else if (frequency == 2447) channel = 8;
+        else if (frequency == 2452) channel = 9;
+        else if (frequency == 2457) channel = 10;
+        else if (frequency == 2462) channel = 11;
+        else if (frequency == 2467) channel = 12;
+        else if (frequency == 2472) channel = 13;
+        else if (frequency == 2484) channel = 14;
+        else channel = -1;
+
+        return channel;
+    }
 
 }
