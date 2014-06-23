@@ -111,8 +111,8 @@ public class ScanFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getActivity().getApplicationContext(), "Scanning", Toast.LENGTH_SHORT).show();
-                // mainWifi.startScan();
-                // doInback();
+                mainWifi.startScan();
+                doInback();
             }
         });
 
@@ -173,6 +173,7 @@ public class ScanFragment extends Fragment {
 
             for(int i = 0; i < wifiList.size(); i++) {
                 connections.add(wifiList.get(i).SSID);
+                //Toast.makeText(getActivity().getApplicationContext(), connections.get(i), Toast.LENGTH_SHORT).show();
             }
         }
 
