@@ -65,6 +65,8 @@ public class ScanFragment extends Fragment {
     StringBuilder sb = new StringBuilder();
     private final Handler handler = new Handler();
 
+    private TextView currChannelText;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -107,6 +109,8 @@ public class ScanFragment extends Fragment {
         if(mainWifi.isWifiEnabled()==false) {
             mainWifi.setWifiEnabled(true);
         }
+
+
     }
 
     @Override
@@ -123,6 +127,8 @@ public class ScanFragment extends Fragment {
                 doInback();
             }
         });
+
+        currChannelText = (TextView)getActivity().findViewById(R.id.current_channel);
 
         //Chase advance Button
         advance = (Button)V.findViewById(R.id.options_button_adv);
@@ -212,8 +218,12 @@ public class ScanFragment extends Fragment {
             wifiList = mainWifi.getScanResults();
 
             for(int i = 0; i < wifiList.size(); i++) {
-                connections.add(wifiList.get(i).SSID);
+                ScanResult sr = wifiList.get(i);
+                connections.add(sr.SSID);
                 //Toast.makeText(getActivity().getApplicationContext(), connections.get(i), Toast.LENGTH_SHORT).show();
+                if (i == 0) {
+                    currChannelText.setText(sr.frequency);
+                }
             }
         }
 
