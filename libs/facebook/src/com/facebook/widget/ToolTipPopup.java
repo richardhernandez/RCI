@@ -19,7 +19,6 @@ package com.facebook.widget;
 import java.lang.ref.WeakReference;
 
 import com.facebook.android.R;
-import com.facebook.widget.LoginButton.ToolTipMode;
 
 import android.app.Activity;
 import android.content.Context;
