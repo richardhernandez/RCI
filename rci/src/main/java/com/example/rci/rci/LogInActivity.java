@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 
 public class LogInActivity extends Activity {
-
     private EditText email;
     private EditText password;
     private Button login;

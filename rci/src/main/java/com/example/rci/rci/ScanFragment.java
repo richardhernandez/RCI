@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,7 +107,7 @@ public class ScanFragment extends Fragment {
         receiverWifi = new WifiReceiver();
         getActivity().registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
-        if(mainWifi.isWifiEnabled()==false) {
+        if(!mainWifi.isWifiEnabled()) {
             mainWifi.setWifiEnabled(true);
         }
 
@@ -128,7 +129,7 @@ public class ScanFragment extends Fragment {
             }
         });
 
-        currChannelText = (TextView)getActivity().findViewById(R.id.current_channel);
+        currChannelText = (TextView)V.findViewById(R.id.current_channel);
 
         //Chase advance Button
         advance = (Button)V.findViewById(R.id.options_button_adv);
@@ -189,20 +190,24 @@ public class ScanFragment extends Fragment {
         mListener = null;
     }
 
-    public void doInback()
-    {
+    public void doInback() {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 mainWifi = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
-                receiverWifi = new WifiReceiver();
                 getActivity().registerReceiver(receiverWifi, new IntentFilter(
                         WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
                 mainWifi.startScan();
+                something(receiverWifi.get());
                 doInback();
             }
         }, 1000);
 
+    }
+
+    private void something(String t) {
+        Log.i("!!!!!!!!!!!!!", t);
+        currChannelText.setText(t);
     }
 
     class WifiReceiver extends BroadcastReceiver
@@ -210,6 +215,7 @@ public class ScanFragment extends Fragment {
         private ArrayList<String> connections;
         private ArrayList<Float> signalStrength;
         private List<ScanResult> wifiList;
+        private int fq;
 
         public void onReceive(Context c, Intent intent) {
             connections = new ArrayList<String>();
@@ -222,22 +228,21 @@ public class ScanFragment extends Fragment {
                 connections.add(sr.SSID);
                 //Toast.makeText(getActivity().getApplicationContext(), connections.get(i), Toast.LENGTH_SHORT).show();
                 if (i == 0) {
-                    currChannelText.setText(sr.frequency);
+                    fq = sr.frequency;
                 }
             }
         }
 
-        public ArrayList<String> getConnections() {
-            return this.connections;
-        }
+        public String get() {
+            String s;
+            try {
+                s = "" + wifiList.get(0).frequency;
+            }
+            catch (NullPointerException n) {
+                s = "";
+            }
 
-        public ArrayList<Float> getSignalStrength() {
-            return this.signalStrength;
-        }
-
-        public int getChannel(String connection) {
-
-            return -1;
+            return s;
         }
 
         public String getCurrentSsid(Context context) {
