@@ -68,6 +68,8 @@ public class ScanFragment extends Fragment {
 
     private TextView currChannelText;
 
+    private static int stop = 0;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -123,6 +125,7 @@ public class ScanFragment extends Fragment {
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                stop = 0;
                 Toast.makeText(getActivity().getApplicationContext(), "Scanning", Toast.LENGTH_SHORT).show();
                 mainWifi.startScan();
                 doInback();
@@ -199,14 +202,16 @@ public class ScanFragment extends Fragment {
                         WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
                 mainWifi.startScan();
                 something(receiverWifi.get());
-                doInback();
+                if (stop < 5) {
+                    stop++;
+                    doInback();
+                }
             }
         }, 1000);
 
     }
 
     private void something(String t) {
-        Log.i("!!!!!!!!!!!!!", t);
         currChannelText.setText(t);
     }
 
