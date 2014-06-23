@@ -9,7 +9,7 @@
         android:name="android.permission.CHANGE_WIFI_STATE"
         android:maxSdkVersion="19" />
     <uses-permission
-        android:name="android.permission.internet"
+        android:name="android.permission.INTERNET"
         android:maxSdkVersion="19" />
     <application
         android:allowBackup="true"

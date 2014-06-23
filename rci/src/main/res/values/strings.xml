@@ -31,5 +31,6 @@
         <item>Dawson</item>
         <item>Richard</item>
     </string-array>
+    <string name="APP_ID">300021416832795</string>
 
 </resources>

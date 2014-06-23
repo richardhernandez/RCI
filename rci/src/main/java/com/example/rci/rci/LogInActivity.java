@@ -13,11 +13,17 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.facebook.UiLifecycleHelper;
+import com.facebook.android.Facebook;
+
+
 public class LogInActivity extends Activity {
     private EditText email;
     private EditText password;
     private Button login;
     private ImageButton facebook;
+    private String APP_ID;
+    private Facebook fb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
