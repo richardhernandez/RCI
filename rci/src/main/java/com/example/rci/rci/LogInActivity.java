@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import com.facebook.UiLifecycleHelper;
 import com.facebook.android.Facebook;
@@ -55,7 +56,7 @@ public class LogInActivity extends Activity {
                         // callback after Graph API response with user object
                         @Override
                         public void onCompleted(GraphUser user, Response response) {
-                            email.setText(user.getUsername());
+                            email.setText(user.getUsername().toString());
 
                             Toast.makeText(getApplicationContext(), "Click Log in to Proceed", Toast.LENGTH_SHORT).show();
                         }
