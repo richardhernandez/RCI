@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:textSize="30dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="?"
+        android:text="ch?"
         android:id="@+id/current_channel"
         android:layout_alignBaseline="@+id/messageText"
         android:layout_alignBottom="@+id/messageText"
