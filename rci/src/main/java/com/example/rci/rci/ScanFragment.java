@@ -118,7 +118,24 @@ public class ScanFragment extends Fragment {
     public void onPause() {
         super.onPause();
         Log.i("PAUSING!!!!!!!!", "");
-        //mainWifi.disconnect();
+        getActivity().unregisterReceiver(receiverWifi);
+        mainWifi.disconnect();
+        mainWifi = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i("RESUMING!!!!!!!!", "");
+        //Set up wifi stuff here
+        mainWifi = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
+
+        receiverWifi = new WifiReceiver();
+        getActivity().registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+
+        if(!mainWifi.isWifiEnabled()) {
+            mainWifi.setWifiEnabled(true);
+        }
     }
 
     @Override
@@ -246,7 +263,7 @@ public class ScanFragment extends Fragment {
         public String get() {
             String s;
             try {
-                s = "" + wifiList.get(0).frequency;
+                s = "" + getChannel(wifiList.get(0).frequency);
             }
             catch (NullPointerException n) {
                 s = "";

@@ -56,9 +56,11 @@ public class LogInActivity extends Activity {
                         // callback after Graph API response with user object
                         @Override
                         public void onCompleted(GraphUser user, Response response) {
-                            email.setText(user.getUsername().toString());
+                            if (user != null) {
+                                email.setText(user.getUsername().toString());
 
-                            Toast.makeText(getApplicationContext(), "Click Log in to Proceed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Welcome" + user.getName(), Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }).executeAsync();
                 }
