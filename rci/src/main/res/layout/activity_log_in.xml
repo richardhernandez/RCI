@@ -25,7 +25,7 @@
         android:id="@+id/imageButton"
         android:background="@drawable/fb_icon_325x325"
         android:scaleType="fitXY"
-        android:layout_marginBottom="41dp"
+        android:layout_marginBottom="70dp"
         android:onClick="PullFacebookData"
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/emailText" />
@@ -89,5 +89,12 @@
         android:layout_marginBottom="25dp"
         android:onClick="login"
         android:layout_alignParentEnd="true" />
+
+    <com.facebook.widget.LoginButton
+        android:id="@+id/authButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="435dp"/>
 
 </RelativeLayout>
