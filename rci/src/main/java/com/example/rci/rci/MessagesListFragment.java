@@ -79,7 +79,7 @@ public class MessagesListFragment extends ListFragment implements AbsListView.On
         //mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
         ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity(), R.array.friends, android.R.layout.simple_list_item_1);
         setListAdapter(adapter);
-        getListView().setOnItemClickListener(this);
+        // getListView().setOnItemClickListener(this);
     }
 
     @Override
@@ -100,12 +100,12 @@ public class MessagesListFragment extends ListFragment implements AbsListView.On
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                + " must implement OnFragmentInteractionListener");
-        }
+//        try {
+//            mListener = (OnFragmentInteractionListener) activity;
+//        } catch (ClassCastException e) {
+//            throw new ClassCastException(activity.toString()
+//                + " must implement OnFragmentInteractionListener");
+//        }
     }
 
     @Override
