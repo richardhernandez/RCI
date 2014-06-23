@@ -116,6 +116,23 @@ public class ScanFragment extends Fragment {
             }
         });
 
+        //Chase advance Button
+        Button options = (Button)V.findViewById(R.id.options_button_adv);
+        final TextView curCH = (TextView)V.findViewById(R.id.messageText);
+        final TextView optCH = (TextView)V.findViewById(R.id.textView2);
+        final TextView curCHnum = (TextView)V.findViewById(R.id.current_channel);
+        final TextView optCHnum = (TextView)V.findViewById(R.id.optimal_channel);
+        options.setOnClickListener(new View.OnClickListener(){
+            @Override
+        public void onClick(View view) {
+            curCH.setVisibility(View.INVISIBLE);
+            optCH.setVisibility(View.INVISIBLE);
+            curCHnum.setVisibility(View.INVISIBLE);
+            optCHnum.setVisibility(View.INVISIBLE);
+
+            }
+        });
+
         return V;
     }
 
