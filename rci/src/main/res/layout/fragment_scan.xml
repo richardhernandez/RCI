@@ -21,7 +21,7 @@
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:textSize="25sp"
-        android:gravity=""
+        android:gravity="center_horizontal"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/current_channel_text"
         android:id="@+id/messageText"
@@ -53,7 +53,7 @@
         android:id="@+id/current_channel"
         android:layout_alignBaseline="@+id/messageText"
         android:layout_alignBottom="@+id/messageText"
-        android:layout_alignLeft="@id/optimal_channel" />
+        android:layout_alignLeft="@+id/optimal_channel" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -81,9 +81,18 @@
     <Button
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="Advance"
+        android:text="@string/options_button_adv"
         android:id="@+id/options_button_adv"
         android:layout_alignBottom="@+id/scan_scannow"
         android:layout_alignRight="@+id/title_scan_results"
         android:layout_alignEnd="@+id/title_scan_results" />
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="@string/options_button_basic"
+        android:id="@+id/options_button_basic"
+        android:layout_alignBottom="@+id/options_button_adv"
+        android:layout_alignRight="@+id/options_button_adv"
+        android:layout_alignEnd="@+id/options_button_adv" />
 </RelativeLayout>

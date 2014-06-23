@@ -50,6 +50,14 @@ public class ScanFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private TextView currentChannel, optimalChannel;
 
+    private TextView curCH;
+    private TextView optCH;
+    private TextView curCHnum;
+    private TextView optCHnum;
+    private Button advance;
+    private Button scan;
+    private Button basic;
+
     private WifiManager mainWifi;
     private WifiReceiver receiverWifi;
     List<ScanResult> wifiList;
@@ -106,7 +114,7 @@ public class ScanFragment extends Fragment {
                              Bundle savedInstanceState) {
         View V = inflater.inflate(R.layout.fragment_scan, container, false);
 
-        Button scan = (Button)V.findViewById(R.id.scan_scannow);
+        scan = (Button)V.findViewById(R.id.scan_scannow);
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,19 +125,34 @@ public class ScanFragment extends Fragment {
         });
 
         //Chase advance Button
-        Button options = (Button)V.findViewById(R.id.options_button_adv);
-        final TextView curCH = (TextView)V.findViewById(R.id.messageText);
-        final TextView optCH = (TextView)V.findViewById(R.id.textView2);
-        final TextView curCHnum = (TextView)V.findViewById(R.id.current_channel);
-        final TextView optCHnum = (TextView)V.findViewById(R.id.optimal_channel);
-        options.setOnClickListener(new View.OnClickListener(){
+        advance = (Button)V.findViewById(R.id.options_button_adv);
+        basic = (Button)V.findViewById(R.id.options_button_basic);
+        basic.setVisibility(View.INVISIBLE);
+        curCH = (TextView)V.findViewById(R.id.messageText);
+        optCH = (TextView)V.findViewById(R.id.textView2);
+        curCHnum = (TextView)V.findViewById(R.id.current_channel);
+        optCHnum = (TextView)V.findViewById(R.id.optimal_channel);
+        advance.setOnClickListener(new View.OnClickListener(){
             @Override
         public void onClick(View view) {
-            curCH.setVisibility(View.INVISIBLE);
-            optCH.setVisibility(View.INVISIBLE);
-            curCHnum.setVisibility(View.INVISIBLE);
-            optCHnum.setVisibility(View.INVISIBLE);
+                curCH.setVisibility(View.INVISIBLE);
+                optCH.setVisibility(View.INVISIBLE);
+                curCHnum.setVisibility(View.INVISIBLE);
+                optCHnum.setVisibility(View.INVISIBLE);
+                advance.setVisibility(View.INVISIBLE);
+                basic.setVisibility(View.VISIBLE);
+            }
+        });
 
+        basic.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                curCH.setVisibility(View.VISIBLE);
+                optCH.setVisibility(View.VISIBLE);
+                curCHnum.setVisibility(View.VISIBLE);
+                optCHnum.setVisibility(View.VISIBLE);
+                basic.setVisibility(View.INVISIBLE);
+                advance.setVisibility(View.VISIBLE);
             }
         });
 
