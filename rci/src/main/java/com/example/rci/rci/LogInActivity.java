@@ -39,7 +39,7 @@ public class LogInActivity extends Activity {
         password = (EditText)findViewById(R.id.passwordInputText);
         login = (Button)findViewById(R.id.button1);
         facebook = (ImageButton)findViewById(R.id.imageButton);
-        facebook.setVisibility(View.INVISIBLE);
+        //facebook.setVisibility(View.INVISIBLE);
 
         // start Facebook Login
         Session.openActiveSession(this, true, new Session.StatusCallback() {
