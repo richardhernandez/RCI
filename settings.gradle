@@ -1,1 +1,1 @@
-include ':rci', ':facebook'
+include ':rci', ':libs:facebook'
