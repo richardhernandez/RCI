@@ -67,6 +67,7 @@ public class ScanFragment extends Fragment {
     private final Handler handler = new Handler();
 
     private TextView currChannelText;
+    private TextView optChannelText;
 
     private static int stop = 0;
 
@@ -155,6 +156,7 @@ public class ScanFragment extends Fragment {
         });
 
         currChannelText = (TextView)V.findViewById(R.id.current_channel);
+        optChannelText = (TextView)V.findViewById(R.id.optimal_channel);
 
         //Chase advance Button
         advance = (Button)V.findViewById(R.id.options_button_adv);
@@ -223,7 +225,8 @@ public class ScanFragment extends Fragment {
                 getActivity().registerReceiver(receiverWifi, new IntentFilter(
                         WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
                 mainWifi.startScan();
-                something(receiverWifi.get());
+                setCurrChannel(receiverWifi.get());
+                setOptChannel(receiverWifi.getOptChannel());
                 if (stop < 5) {
                     stop++;
                     doInback();
@@ -233,9 +236,10 @@ public class ScanFragment extends Fragment {
 
     }
 
-    private void something(String t) {
+    private void setCurrChannel(String t) {
         currChannelText.setText(t);
     }
+    private void setOptChannel(String t) { optChannelText.setText(t); }
 
     class WifiReceiver extends BroadcastReceiver
     {
@@ -243,21 +247,27 @@ public class ScanFragment extends Fragment {
         private ArrayList<Float> signalStrength;
         private List<ScanResult> wifiList;
         private int fq;
+        private ArrayList<Integer> channels;
+        private int optChannel;
 
         public void onReceive(Context c, Intent intent) {
             connections = new ArrayList<String>();
             signalStrength = new ArrayList<Float>();
             sb = new StringBuilder();
             wifiList = mainWifi.getScanResults();
+            channels = new ArrayList<Integer>();
 
             for(int i = 0; i < wifiList.size(); i++) {
                 ScanResult sr = wifiList.get(i);
                 connections.add(sr.SSID);
+                channels.add(getChannel(sr.frequency));
                 //Toast.makeText(getActivity().getApplicationContext(), connections.get(i), Toast.LENGTH_SHORT).show();
                 if (i == 0) {
                     fq = getChannel(sr.frequency);
                 }
             }
+
+            optChannel = getOptimalChannel(channels);
         }
 
         public String get() {
@@ -270,6 +280,10 @@ public class ScanFragment extends Fragment {
             }
 
             return s;
+        }
+
+        public String getOptChannel() {
+            return ""+optChannel;
         }
 
         public String getCurrentSsid(Context context) {
@@ -321,6 +335,31 @@ public class ScanFragment extends Fragment {
         else channel = -1;
 
         return channel;
+    }
+
+    public int getOptimalChannel(ArrayList<Integer> channels) {
+        int num1 = 0;
+        int num6 = 0;
+        int num11= 0;
+
+        // Get number of access points on channels 1, 6, 11
+        for (int i = 0; i < channels.size(); i++) {
+            if (channels.get(i) == 1)
+                num1++;
+            else if (channels.get(i) == 6)
+                num6++;
+            else if (channels.get(i) == 11)
+                num11++;
+        }
+
+        //return channel with lowest number of access points
+        if (num1 < num6 && num1 < num11)
+            return 1;
+        else if (num6 < num11)
+            return 6;
+        else
+            return 11;
+
     }
 
 }
