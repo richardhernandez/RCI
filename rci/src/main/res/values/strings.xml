@@ -33,5 +33,6 @@
     </string-array>
     <string name="app_id">300021416832795</string>
     <string name="title_facebook_login">Facebook</string>
+    <string name="activity_help">Help</string>
 
 </resources>

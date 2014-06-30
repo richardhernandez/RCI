@@ -84,6 +84,9 @@ public class MainActivity extends Activity
                 newFragment = new Fragment();
                 Toast.makeText(getApplicationContext(), "Not implemented yet", Toast.LENGTH_SHORT).show();
                 break;
+            case 3:
+                newFragment = new HelpFragment();
+                break;
         }
 
         fragmentManager.beginTransaction()
@@ -102,6 +105,8 @@ public class MainActivity extends Activity
             case 3:
                 mTitle = getString(R.string.activity_settings);
                 break;
+            case 4:
+                mTitle = getString(R.string.activity_help);
         }
     }
 
