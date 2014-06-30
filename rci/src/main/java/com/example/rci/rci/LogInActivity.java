@@ -57,7 +57,7 @@ public class LogInActivity extends Activity {
                         @Override
                         public void onCompleted(GraphUser user, Response response) {
                             if (user != null) {
-                                email.setText(user.getUsername().toString());
+                                email.setText(user.getUsername());
 
                                 Toast.makeText(getApplicationContext(), "Welcome" + user.getName(), Toast.LENGTH_SHORT).show();
                             }
