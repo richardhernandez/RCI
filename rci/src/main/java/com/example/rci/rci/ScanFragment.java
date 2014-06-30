@@ -119,9 +119,21 @@ public class ScanFragment extends Fragment {
     public void onPause() {
         super.onPause();
         Log.i("PAUSING!!!!!!!!", "");
-        getActivity().unregisterReceiver(receiverWifi);
-        mainWifi.disconnect();
         mainWifi = null;
+        while (handler.hasMessages(0)) {
+            handler.removeMessages(0);
+        }
+
+        stopScanning();
+    }
+
+    @Override
+    public void onDestroy() {
+        while (handler.hasMessages(0)) {
+            handler.removeMessages(0);
+        }
+        getActivity().unregisterReceiver(receiverWifi);
+        super.onDestroy();
     }
 
     @Override
@@ -151,7 +163,7 @@ public class ScanFragment extends Fragment {
                 stop = 0;
                 Toast.makeText(getActivity().getApplicationContext(), "Scanning", Toast.LENGTH_SHORT).show();
                 mainWifi.startScan();
-                doInback();
+                startScanning();
             }
         });
 
@@ -217,23 +229,25 @@ public class ScanFragment extends Fragment {
         mListener = null;
     }
 
-    public void doInback() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mainWifi = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
-                getActivity().registerReceiver(receiverWifi, new IntentFilter(
-                        WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-                mainWifi.startScan();
-                setCurrChannel(receiverWifi.get());
-                setOptChannel(receiverWifi.getOptChannel());
-                if (stop < 5) {
-                    stop++;
-                    doInback();
-                }
-            }
-        }, 1000);
+    public Runnable scanRunnable = new Runnable() {
+        @Override
+        public void run() {
+            mainWifi = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
+            getActivity().registerReceiver(receiverWifi, new IntentFilter(
+                    WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+            mainWifi.startScan();
+            setCurrChannel(receiverWifi.get());
+            setOptChannel(receiverWifi.getOptChannel());
+            handler.postDelayed(scanRunnable, 1000);
+        }
+    };
 
+    public void startScanning() {
+        scanRunnable.run();
+    }
+
+    public void stopScanning() {
+        handler.removeCallbacks(scanRunnable);
     }
 
     private void setCurrChannel(String t) {
@@ -251,6 +265,7 @@ public class ScanFragment extends Fragment {
         private int optChannel;
 
         public void onReceive(Context c, Intent intent) {
+            if (mainWifi == null) return;  // god bless
             connections = new ArrayList<String>();
             signalStrength = new ArrayList<Float>();
             sb = new StringBuilder();
