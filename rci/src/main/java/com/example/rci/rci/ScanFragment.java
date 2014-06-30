@@ -353,7 +353,7 @@ public class ScanFragment extends Fragment {
         }
 
         //return channel with lowest number of access points
-        if (num1 < num6 && num1 < num11)
+        if (num1 < num6 && num1 < num11 || (num1 == num6 && num1 == num11))
             return 1;
         else if (num6 < num11)
             return 6;
