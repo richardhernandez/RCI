@@ -22,12 +22,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,6 +60,8 @@ public class ScanFragment extends Fragment {
     private WifiManager mainWifi;
     private WifiReceiver receiverWifi;
     List<ScanResult> wifiList;
+
+    private GraphViewSeries exampleSeries;
 
     StringBuilder sb = new StringBuilder();
     private final Handler handler = new Handler();
@@ -187,6 +187,7 @@ public class ScanFragment extends Fragment {
                 optCHnum.setVisibility(View.INVISIBLE);
                 advance.setVisibility(View.INVISIBLE);
                 basic.setVisibility(View.VISIBLE);
+
             }
         });
 
