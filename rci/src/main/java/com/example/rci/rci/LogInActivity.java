@@ -58,8 +58,7 @@ public class LogInActivity extends Activity {
                         public void onCompleted(GraphUser user, Response response) {
                             if (user != null) {
                                 email.setText(user.getUsername());
-
-                                Toast.makeText(getApplicationContext(), "Welcome" + user.getName(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Welcome " + user.getName(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     }).executeAsync();
