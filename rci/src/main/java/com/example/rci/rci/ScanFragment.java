@@ -20,8 +20,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.jjoe64.graphview.BarGraphView;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GraphViewSeries;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,8 +67,6 @@ public class ScanFragment extends Fragment {
     private WifiReceiver receiverWifi;
     List<ScanResult> wifiList;
 
-    private GraphViewSeries exampleSeries;
-
     StringBuilder sb = new StringBuilder();
     private final Handler handler = new Handler();
 
@@ -70,6 +74,9 @@ public class ScanFragment extends Fragment {
     private TextView optChannelText;
 
     private static int stop = 0;
+
+    private GraphView graphView;
+    private int num1, num6, num11;
 
     /**
      * Use this factory method to create a new instance of
@@ -96,6 +103,7 @@ public class ScanFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -113,6 +121,22 @@ public class ScanFragment extends Fragment {
         if(!mainWifi.isWifiEnabled()) {
             mainWifi.setWifiEnabled(true);
         }
+
+        num1 = 0;
+        num6 = 0;
+        num11 = 0;
+
+        graphView = new BarGraphView(getActivity(), "Router Channels Nearby");
+        //graphView.getGraphViewStyle().setNumVerticalLabels(10);
+        graphView.getGraphViewStyle().setNumHorizontalLabels(3);
+        GraphViewSeries series = new GraphViewSeries("aaa", null, new GraphView.GraphViewData[]{
+                new GraphView.GraphViewData(1, num1),
+                new GraphView.GraphViewData(6, num6),
+                new GraphView.GraphViewData(11, num11)
+        });
+        graphView.addSeries(series);
+        //LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.graph1);
+        //layout.addView(graphView);
     }
 
     @Override
@@ -354,9 +378,9 @@ public class ScanFragment extends Fragment {
     }
 
     public int getOptimalChannel(ArrayList<Integer> channels) {
-        int num1 = 0;
-        int num6 = 0;
-        int num11= 0;
+        num1 = 0;
+        num6 = 0;
+        num11= 0;
 
         // Get number of access points on channels 1, 6, 11
         for (int i = 0; i < channels.size(); i++) {
@@ -368,14 +392,47 @@ public class ScanFragment extends Fragment {
                 num11++;
         }
 
-        //return channel with lowest number of access points
-        if (num1 < num6 && num1 < num11 || (num1 == num6 && num1 == num11))
-            return 1;
-        else if (num6 < num11)
-            return 6;
-        else
-            return 11;
 
+        int optChannel = 0;
+        int maxNum = 0;
+        //return channel with lowest number of access points
+        if (num1 < num6 && num1 < num11 || (num1 == num6 && num1 == num11)) {
+            optChannel = 1;
+        }
+        else if (num6 < num11) {
+            optChannel = 6;
+        }
+        else {
+            optChannel = 11;
+        }
+        if (num1 > num6 && num1 > num11)
+            maxNum = num1;
+        else if (num6 > num11)
+            maxNum = num6;
+        else if (num11 > num6)
+            maxNum = num11;
+
+
+        //set graph here
+        GraphViewSeries series = new GraphViewSeries("graphViewSeries", null, new GraphView.GraphViewData[]{
+                new GraphView.GraphViewData(1, num1),
+                new GraphView.GraphViewData(6, num6),
+                new GraphView.GraphViewData(11, num11)
+        });
+        graphView.setManualYAxisBounds(maxNum, 0);
+        graphView.getGraphViewStyle().setNumVerticalLabels(maxNum + 1);
+        graphView.removeAllSeries();
+        graphView.addSeries(series);
+        LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.graph1);
+        try {
+            layout.addView(graphView);
+        }
+        catch (Exception e) {
+            Log.i("EXCEPTION!!!!!!!!", "");
+        }
+
+
+        return optChannel;
     }
 
 }

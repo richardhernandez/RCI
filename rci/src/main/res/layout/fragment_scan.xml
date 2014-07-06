@@ -25,11 +25,9 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/current_channel_text"
         android:id="@+id/messageText"
-        android:layout_marginLeft="10dp"
-        android:layout_above="@+id/textView2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="102dp" />
+        android:layout_below="@+id/title_scan_results"
+        android:layout_alignLeft="@+id/title_scan_results"
+        android:layout_alignStart="@+id/title_scan_results" />
 
     <TextView
         android:layout_width="250dp"
@@ -39,8 +37,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/optimal_channel_text"
         android:id="@+id/textView2"
-        android:layout_marginBottom="60dp"
-        android:layout_above="@+id/scan_scannow"
+        android:layout_below="@+id/messageText"
         android:layout_alignLeft="@+id/messageText"
         android:layout_alignStart="@+id/messageText" />
 
@@ -73,7 +70,6 @@
         android:textSize="45sp"
         android:text="Scan Results"
         android:id="@+id/title_scan_results"
-        android:layout_marginTop="50dp"
         android:gravity="center"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -95,4 +91,12 @@
         android:layout_alignBottom="@+id/options_button_adv"
         android:layout_alignRight="@+id/options_button_adv"
         android:layout_alignEnd="@+id/options_button_adv" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginTop="150dp"
+        android:layout_width="fill_parent"
+        android:layout_height="275dp"
+        android:id="@+id/graph1"
+        android:background="#102f65" />
 </RelativeLayout>
