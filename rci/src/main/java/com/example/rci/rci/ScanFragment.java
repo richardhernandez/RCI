@@ -76,6 +76,7 @@ public class ScanFragment extends Fragment {
     private static int stop = 0;
 
     private GraphView graphView;
+    private LinearLayout layout;
     private int num1, num6, num11;
 
     /**
@@ -135,7 +136,7 @@ public class ScanFragment extends Fragment {
                 new GraphView.GraphViewData(11, 0)
         });
         graphView.addSeries(series);
-        //LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.graph1);
+        //layout = (LinearLayout) getActivity().findViewById(R.id.graph1);
         //layout.addView(graphView);
     }
 
@@ -212,6 +213,7 @@ public class ScanFragment extends Fragment {
                 advance.setVisibility(View.INVISIBLE);
                 basic.setVisibility(View.VISIBLE);
                 graphView.setVisibility(View.INVISIBLE);
+                layout.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -225,6 +227,7 @@ public class ScanFragment extends Fragment {
                 basic.setVisibility(View.INVISIBLE);
                 advance.setVisibility(View.VISIBLE);
                 graphView.setVisibility(View.VISIBLE);
+                layout.setVisibility(View.VISIBLE);
             }
         });
 
@@ -424,7 +427,7 @@ public class ScanFragment extends Fragment {
         graphView.getGraphViewStyle().setNumVerticalLabels(maxNum + 1);
         graphView.removeAllSeries();
         graphView.addSeries(series);
-        LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.graph1);
+        layout = (LinearLayout) getActivity().findViewById(R.id.graph1);
         try {
             layout.addView(graphView);
         }
