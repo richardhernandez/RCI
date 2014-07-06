@@ -130,9 +130,9 @@ public class ScanFragment extends Fragment {
         //graphView.getGraphViewStyle().setNumVerticalLabels(10);
         graphView.getGraphViewStyle().setNumHorizontalLabels(3);
         GraphViewSeries series = new GraphViewSeries("aaa", null, new GraphView.GraphViewData[]{
-                new GraphView.GraphViewData(1, num1),
-                new GraphView.GraphViewData(6, num6),
-                new GraphView.GraphViewData(11, num11)
+                new GraphView.GraphViewData(1, 0),
+                new GraphView.GraphViewData(6, 0),
+                new GraphView.GraphViewData(11, 0)
         });
         graphView.addSeries(series);
         //LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.graph1);
@@ -211,7 +211,7 @@ public class ScanFragment extends Fragment {
                 optCHnum.setVisibility(View.INVISIBLE);
                 advance.setVisibility(View.INVISIBLE);
                 basic.setVisibility(View.VISIBLE);
-
+                graphView.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -224,6 +224,7 @@ public class ScanFragment extends Fragment {
                 optCHnum.setVisibility(View.VISIBLE);
                 basic.setVisibility(View.INVISIBLE);
                 advance.setVisibility(View.VISIBLE);
+                graphView.setVisibility(View.VISIBLE);
             }
         });
 
