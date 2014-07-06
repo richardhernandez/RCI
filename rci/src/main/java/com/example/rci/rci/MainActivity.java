@@ -107,6 +107,7 @@ public class MainActivity extends Activity
                 break;
             case 4:
                 mTitle = getString(R.string.activity_help);
+                break;
         }
     }
 

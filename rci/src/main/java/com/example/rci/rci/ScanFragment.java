@@ -416,6 +416,8 @@ public class ScanFragment extends Fragment {
         else if (num11 > num6)
             maxNum = num11;
 
+        if (maxNum == 0)
+            maxNum = 1;
 
         //set graph here
         GraphViewSeries series = new GraphViewSeries("graphViewSeries", null, new GraphView.GraphViewData[]{
