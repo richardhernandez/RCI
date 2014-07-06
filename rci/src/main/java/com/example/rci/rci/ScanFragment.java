@@ -19,8 +19,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -79,6 +81,8 @@ public class ScanFragment extends Fragment {
     private LinearLayout layout;
     private int num1, num6, num11;
 
+    private ListView routerList;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -136,8 +140,11 @@ public class ScanFragment extends Fragment {
                 new GraphView.GraphViewData(11, 0)
         });
         graphView.addSeries(series);
-        //layout = (LinearLayout) getActivity().findViewById(R.id.graph1);
+        layout = (LinearLayout) getActivity().findViewById(R.id.graph1);
         //layout.addView(graphView);
+
+        //routerList = (ListView) getActivity().findViewById(R.id.router_list);
+        //routerList.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -195,6 +202,11 @@ public class ScanFragment extends Fragment {
         currChannelText = (TextView)V.findViewById(R.id.current_channel);
         optChannelText = (TextView)V.findViewById(R.id.optimal_channel);
 
+        layout = (LinearLayout) getActivity().findViewById(R.id.graph1);
+
+        routerList = (ListView) V.findViewById(R.id.router_list);
+        routerList.setVisibility(View.INVISIBLE);
+
         //Chase advance Button
         advance = (Button)V.findViewById(R.id.options_button_adv);
         basic = (Button)V.findViewById(R.id.options_button_basic);
@@ -212,8 +224,12 @@ public class ScanFragment extends Fragment {
                 optCHnum.setVisibility(View.INVISIBLE);
                 advance.setVisibility(View.INVISIBLE);
                 basic.setVisibility(View.VISIBLE);
+
                 graphView.setVisibility(View.INVISIBLE);
+                layout = (LinearLayout) getActivity().findViewById(R.id.graph1);
                 layout.setVisibility(View.INVISIBLE);
+
+                routerList.setVisibility(View.VISIBLE);
             }
         });
 
@@ -226,8 +242,12 @@ public class ScanFragment extends Fragment {
                 optCHnum.setVisibility(View.VISIBLE);
                 basic.setVisibility(View.INVISIBLE);
                 advance.setVisibility(View.VISIBLE);
+
                 graphView.setVisibility(View.VISIBLE);
+                layout = (LinearLayout) getActivity().findViewById(R.id.graph1);
                 layout.setVisibility(View.VISIBLE);
+
+                routerList.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -267,6 +287,7 @@ public class ScanFragment extends Fragment {
             mainWifi.startScan();
             setCurrChannel(receiverWifi.get());
             setOptChannel(receiverWifi.getOptChannel());
+            setWifiList(receiverWifi.getWifiList());
             handler.postDelayed(scanRunnable, 1000);
         }
     };
@@ -283,6 +304,24 @@ public class ScanFragment extends Fragment {
         currChannelText.setText(t);
     }
     private void setOptChannel(String t) { optChannelText.setText(t); }
+
+    private void setWifiList(List<ScanResult> wifiList) {
+        try {
+            ArrayList<String> listContent = new ArrayList<String>();
+
+            for (int i = 0; i < wifiList.size(); i++) {
+                ScanResult sr = wifiList.get(i);
+
+                listContent.add(sr.SSID + "\t" + getChannel(sr.frequency) + "\t" + sr.level);
+            }
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.row, listContent);
+            routerList.setAdapter(adapter);
+        }
+        catch (Exception e) {
+            // Probably do something here
+        }
+    }
 
     class WifiReceiver extends BroadcastReceiver
     {
@@ -343,6 +382,11 @@ public class ScanFragment extends Fragment {
             }
             return ssid;
         }
+
+        public List<ScanResult> getWifiList() {
+            return wifiList;
+        }
+
     }
 
     /**
