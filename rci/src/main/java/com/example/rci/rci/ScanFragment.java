@@ -32,14 +32,8 @@ import com.jjoe64.graphview.GraphViewSeries;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -335,8 +329,8 @@ public class ScanFragment extends Fragment {
         private ArrayList<Float> signalStrength;
         private List<ScanResult> wifiList;
         private int fq;
+        private ArrayList<Integer> channels;
         private int optChannel;
-        private ConcurrentHashMap<Integer, AtomicLong> chanMap;
 
         public void onReceive(Context c, Intent intent) {
             if (mainWifi == null) return;  // god bless
@@ -344,21 +338,19 @@ public class ScanFragment extends Fragment {
             signalStrength = new ArrayList<Float>();
             sb = new StringBuilder();
             wifiList = mainWifi.getScanResults();
-            chanMap = new ConcurrentHashMap<Integer, AtomicLong>();
+            channels = new ArrayList<Integer>();
 
             for(int i = 0; i < wifiList.size(); i++) {
                 ScanResult sr = wifiList.get(i);
                 connections.add(sr.SSID);
-                int ch = getChannel(sr.frequency);
-                chanMap.putIfAbsent(ch, new AtomicLong(1));
-                chanMap.get(ch).getAndIncrement();
+                channels.add(getChannel(sr.frequency));
                 //Toast.makeText(getActivity().getApplicationContext(), connections.get(i), Toast.LENGTH_SHORT).show();
                 if (i == 0) {
                     fq = getChannel(sr.frequency);
                 }
             }
 
-            optChannel = getOptimalChannel(chanMap);
+            optChannel = getOptimalChannel(channels);
         }
 
         public String get() {
@@ -433,34 +425,50 @@ public class ScanFragment extends Fragment {
         return channel;
     }
 
-    public int getOptimalChannel(Map<Integer, AtomicLong> channels) {
+    public int getOptimalChannel(ArrayList<Integer> channels) {
+        num1 = 0;
+        num6 = 0;
+        num11= 0;
+
+        // Get number of access points on channels 1, 6, 11
+        for (int i = 0; i < channels.size(); i++) {
+            if (channels.get(i) == 1)
+                num1++;
+            else if (channels.get(i) == 6)
+                num6++;
+            else if (channels.get(i) == 11)
+                num11++;
+        }
+
+
         int optChannel = 0;
         int maxNum = 0;
         //return channel with lowest number of access points
-
-        Map.Entry<Integer, AtomicLong> min = null;
-        for (Map.Entry<Integer, AtomicLong> entry : channels.entrySet()) {
-            if (min == null || min.getValue().intValue() > entry.getValue().intValue()) {
-                min = entry;
-            }
+        if (num1 < num6 && num1 < num11 || (num1 == num6 && num1 == num11)) {
+            optChannel = 1;
         }
-
-        optChannel = min.getKey(); // please do not be null
-
-        Collection<Integer> p = new HashSet<Integer>();
-        for (AtomicLong l : channels.values()) {
-            p.add(l.intValue());
+        else if (num6 < num11) {
+            optChannel = 6;
         }
-
-        maxNum = Collections.max(p);
-
-        GraphView.GraphViewData d[] = new GraphView.GraphViewData[14];
-        for (int i = 0; i < channels.size(); i++) {
-            d[i] = new GraphView.GraphViewData(i, channels.get(i).intValue());
+        else {
+            optChannel = 11;
         }
+        if (num1 > num6 && num1 > num11)
+            maxNum = num1;
+        else if (num6 > num11)
+            maxNum = num6;
+        else if (num11 > num6)
+            maxNum = num11;
+
+        if (maxNum == 0)
+            maxNum = 1;
 
         //set graph here
-        GraphViewSeries series = new GraphViewSeries("graphViewSeries", null, d);
+        GraphViewSeries series = new GraphViewSeries("graphViewSeries", null, new GraphView.GraphViewData[]{
+                new GraphView.GraphViewData(1, num1),
+                new GraphView.GraphViewData(6, num6),
+                new GraphView.GraphViewData(11, num11)
+        });
         graphView.setManualYAxisBounds(maxNum, 0);
         graphView.getGraphViewStyle().setNumVerticalLabels(maxNum + 1);
         graphView.removeAllSeries();
