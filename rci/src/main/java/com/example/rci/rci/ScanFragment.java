@@ -426,23 +426,48 @@ public class ScanFragment extends Fragment {
     }
 
     public int getOptimalChannel(ArrayList<Integer> channels) {
-        num1 = 0;
-        num6 = 0;
-        num11= 0;
+        int num1 = 0;
+        int num2 = 0;
+        int num3 = 0;
+        int num4 = 0;
+        int num5 = 0;
+        int num6 = 0;
+        int num7 = 0;
+        int num8 = 0;
+        int num9 = 0;
+        int num10 = 0;
+        int num11 = 0;
+        int maxNum = 0;
 
         // Get number of access points on channels 1, 6, 11
         for (int i = 0; i < channels.size(); i++) {
             if (channels.get(i) == 1)
                 num1++;
+            else if (channels.get(i) == 2)
+                num2++;
+            else if (channels.get(i) == 3)
+                num3++;
+            else if (channels.get(i) == 4)
+                num4++;
+            else if (channels.get(i) == 5)
+                num5++;
             else if (channels.get(i) == 6)
                 num6++;
+            else if (channels.get(i) == 7)
+                num7++;
+            else if (channels.get(i) == 8)
+                num8++;
+            else if (channels.get(i) == 9)
+                num9++;
+            else if (channels.get(i) == 10)
+                num10++;
             else if (channels.get(i) == 11)
                 num11++;
         }
 
 
         int optChannel = 0;
-        int maxNum = 0;
+
         //return channel with lowest number of access points
         if (num1 < num6 && num1 < num11 || (num1 == num6 && num1 == num11)) {
             optChannel = 1;
@@ -460,14 +485,23 @@ public class ScanFragment extends Fragment {
         else if (num11 > num6)
             maxNum = num11;
 
-        if (maxNum == 0)
-            maxNum = 1;
+        maxNum = Math.max(Math.max(Math.max(Math.max(Math.max(num1, num2), num3), num4), num5), num6);
+        maxNum = Math.max(Math.max(Math.max(Math.max(Math.max(maxNum, num7), num8), num9), num10), num11);
 
         //set graph here
         GraphViewSeries series = new GraphViewSeries("graphViewSeries", null, new GraphView.GraphViewData[]{
                 new GraphView.GraphViewData(1, num1),
+                new GraphView.GraphViewData(2, num2),
+                new GraphView.GraphViewData(3, num3),
+                new GraphView.GraphViewData(4, num4),
+                new GraphView.GraphViewData(5, num5),
                 new GraphView.GraphViewData(6, num6),
+                new GraphView.GraphViewData(7, num7),
+                new GraphView.GraphViewData(8, num8),
+                new GraphView.GraphViewData(9, num9),
+                new GraphView.GraphViewData(10, num10),
                 new GraphView.GraphViewData(11, num11)
+
         });
         graphView.setManualYAxisBounds(maxNum, 0);
         graphView.getGraphViewStyle().setNumVerticalLabels(maxNum + 1);
