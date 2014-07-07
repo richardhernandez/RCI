@@ -132,8 +132,7 @@ public class ScanFragment extends Fragment {
         num11 = 0;
 
         graphView = new BarGraphView(getActivity(), "Router Channels Nearby");
-        //graphView.getGraphViewStyle().setNumVerticalLabels(10);
-        graphView.getGraphViewStyle().setNumHorizontalLabels(3);
+        graphView.getGraphViewStyle().setNumHorizontalLabels(11);
         GraphViewSeries series = new GraphViewSeries("aaa", null, new GraphView.GraphViewData[]{
                 new GraphView.GraphViewData(1, 0),
                 new GraphView.GraphViewData(6, 0),
@@ -478,12 +477,6 @@ public class ScanFragment extends Fragment {
         else {
             optChannel = 11;
         }
-        if (num1 > num6 && num1 > num11)
-            maxNum = num1;
-        else if (num6 > num11)
-            maxNum = num6;
-        else if (num11 > num6)
-            maxNum = num11;
 
         maxNum = Math.max(Math.max(Math.max(Math.max(Math.max(num1, num2), num3), num4), num5), num6);
         maxNum = Math.max(Math.max(Math.max(Math.max(Math.max(maxNum, num7), num8), num9), num10), num11);

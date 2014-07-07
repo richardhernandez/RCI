@@ -29,7 +29,7 @@ import android.net.wifi.WifiManager;
 
 
 public class MainActivity extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, ScanFragment.OnFragmentInteractionListener, Messages.OnFragmentInteractionListener {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, ScanFragment.OnFragmentInteractionListener, Messages.OnFragmentInteractionListener, HelpFragment.OnFragmentInteractionListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
