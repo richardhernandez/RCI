@@ -44,12 +44,12 @@ public class WifiListAdapter extends ArrayAdapter<ScanResult> {
         ScanResult t = results.get(position);
 
         TextView ssid = (TextView) convertView.findViewById(R.id.ssid);
-        TextView channel = (TextView) convertView.findViewById(R.id.channel);
+        TextView channel = (TextView) convertView.findViewById(R.id.row_channel);
         TextView power = (TextView) convertView.findViewById(R.id.power);
 
         ssid.setText(t.SSID);
-        channel.setText(getChannel(t.frequency));
-        power.setText(t.level);
+        channel.setText("" + getChannel(t.frequency));
+        power.setText("" + t.level);
 
         return convertView;
     }
