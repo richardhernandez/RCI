@@ -405,6 +405,7 @@ public class ScanFragment extends Fragment {
 
     public int getChannel(int frequency) {
         int channel = 0;
+        // 2.4 ghz
         if (frequency == 2412) channel = 1;
         else if (frequency == 2417) channel = 2;
         else if (frequency == 2422) channel = 3;
@@ -419,6 +420,28 @@ public class ScanFragment extends Fragment {
         else if (frequency == 2467) channel = 12;
         else if (frequency == 2472) channel = 13;
         else if (frequency == 2484) channel = 14;
+        // 5 ghz (only US ones)
+        else if (frequency == 5180) channel = 36;
+        else if (frequency == 5200) channel = 40;
+        else if (frequency == 5220) channel = 44;
+        else if (frequency == 5240) channel = 48;
+        else if (frequency == 5260) channel = 52;
+        else if (frequency == 5280) channel = 56;
+        else if (frequency == 5300) channel = 60;
+        else if (frequency == 5320) channel = 64;
+        else if (frequency == 5500) channel = 100;
+        else if (frequency == 5520) channel = 104;
+        else if (frequency == 5540) channel = 108;
+        else if (frequency == 5560) channel = 112;
+        else if (frequency == 5580) channel = 116;
+        else if (frequency == 5660) channel = 132;
+        else if (frequency == 5680) channel = 136;
+        else if (frequency == 5700) channel = 140;
+        else if (frequency == 5745) channel = 149;
+        else if (frequency == 5765) channel = 153;
+        else if (frequency == 5785) channel = 157;
+        else if (frequency == 5805) channel = 161;
+        else if (frequency == 5825) channel = 165;
         else channel = -1;
 
         return channel;
