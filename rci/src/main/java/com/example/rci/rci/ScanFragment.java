@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -82,6 +83,7 @@ public class ScanFragment extends Fragment {
     private int num1, num6, num11;
 
     private ListView routerList;
+    private WifiListAdapter adapter;
 
     /**
      * Use this factory method to create a new instance of
@@ -144,6 +146,7 @@ public class ScanFragment extends Fragment {
 
         //routerList = (ListView) getActivity().findViewById(R.id.router_list);
         //routerList.setVisibility(View.INVISIBLE);
+
     }
 
     @Override
@@ -204,7 +207,10 @@ public class ScanFragment extends Fragment {
         layout = (LinearLayout) getActivity().findViewById(R.id.graph1);
 
         routerList = (ListView) V.findViewById(R.id.router_list);
+        adapter = new WifiListAdapter(getActivity(), new ArrayList<ScanResult>());
+        routerList.setAdapter(adapter);
         routerList.setVisibility(View.INVISIBLE);
+        //routerList.setOnItemClickListener(getActivity());
 
         //Chase advance Button
         advance = (Button)V.findViewById(R.id.options_button_adv);
@@ -314,7 +320,7 @@ public class ScanFragment extends Fragment {
                 listContent.add(sr.SSID + "\t" + getChannel(sr.frequency) + "\t" + sr.level);
             }
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.row, listContent);
+            adapter = new WifiListAdapter(getActivity(), wifiList);
             routerList.setAdapter(adapter);
         }
         catch (Exception e) {
@@ -533,6 +539,12 @@ public class ScanFragment extends Fragment {
 
 
         return optChannel;
+    }
+
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        // This should just gray out all of the EditTexts and only update if data was changed
+        // Maybe I should implement a UserAccount.equals method.
+
     }
 
 }
