@@ -21,6 +21,7 @@ android:padding="10dp">
     android:textAppearance="?android:attr/textAppearanceLarge"
     android:layout_alignParentRight="true"
     android:paddingTop="10dp"
+    android:paddingRight="90dp"
     android:id="@+id/row_channel"/>
 
 <TextView
