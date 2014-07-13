@@ -19,18 +19,8 @@
         android:gravity="center" />
 
 
-    <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:id="@+id/imageButton"
-        android:background="@drawable/fb_icon_325x325"
-        android:scaleType="fitXY"
-        android:layout_marginBottom="90dp"
-        android:onClick="PullFacebookData"
-        android:layout_marginTop="350dp"
-        android:layout_toRightOf="@+id/emailText" />
-
     //Email input text
+
     <EditText
         android:layout_width="250dp"
         android:layout_height="wrap_content"
@@ -83,12 +73,11 @@
         android:layout_height="wrap_content"
         android:text="@string/button_log_in"
         android:id="@+id/button1"
-        android:layout_alignBottom="@+id/imageButton"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="50dp"
-        android:layout_marginBottom="25dp"
         android:onClick="login"
-        android:layout_alignParentEnd="true" />
+        android:layout_below="@+id/passwordInputText"
+        android:layout_toRightOf="@+id/authButton"
+        android:layout_marginLeft="49dp"
+        android:layout_marginTop="58dp" />
 
     <com.facebook.widget.LoginButton
         android:id="@+id/authButton"
@@ -96,5 +85,14 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:layout_marginTop="435dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_register_text"
+        android:id="@+id/button"
+        android:layout_alignBottom="@+id/button1"
+        android:layout_toRightOf="@+id/emailText"
+        android:onClick="register" />
 
 </RelativeLayout>

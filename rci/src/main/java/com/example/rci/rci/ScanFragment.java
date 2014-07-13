@@ -308,7 +308,10 @@ public class ScanFragment extends Fragment {
     private void setCurrChannel(String t) {
         currChannelText.setText(t);
     }
-    private void setOptChannel(String t) { optChannelText.setText(t); }
+
+    private void setOptChannel(String t) {
+        optChannelText.setText(t);
+    }
 
     private void setWifiList(List<ScanResult> wifiList) {
         try {

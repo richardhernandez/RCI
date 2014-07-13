@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,12 +21,27 @@ import com.facebook.android.Facebook;
 import com.facebook.*;
 import com.facebook.model.GraphUser;
 
+import org.apache.http.HttpStatus;
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 public class LogInActivity extends Activity {
     private EditText email;
     private EditText password;
     private Button login;
-    private ImageButton facebook;
     private String APP_ID;
     private Facebook fb;
     //private LogInFragment logInFragment;
@@ -39,7 +55,6 @@ public class LogInActivity extends Activity {
         email = (EditText)findViewById(R.id.emailInputText);
         password = (EditText)findViewById(R.id.passwordInputText);
         login = (Button)findViewById(R.id.button1);
-        facebook = (ImageButton)findViewById(R.id.imageButton);
         //facebook.setVisibility(View.INVISIBLE);
 
         // start Facebook Login
@@ -69,8 +84,11 @@ public class LogInActivity extends Activity {
 
     //Function to make login work
     public void login(View view) {
-        if (email.getText().toString().equals("gburdell@gatech.edu") &&
-                password.getText().toString().equals("buzz")) {
+        Map<String, String> values = new HashMap<String, String>(2);
+        values.put("email", email.getText().toString());
+        values.put("password", password.getText().toString());
+        int response = new HttpManager().post(HttpManager.FORM_TYPE.LOGIN, values);
+        if (response == 400) {
             Toast.makeText(getApplicationContext(), "Logging In...", Toast.LENGTH_SHORT).show();
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -83,6 +101,23 @@ public class LogInActivity extends Activity {
             finish();
         } else {
             Toast.makeText(getApplicationContext(), "Wrong Credentials", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void register(View view) {
+        Map<String, String> values = new HashMap<String, String>(2);
+        values.put("email", email.getText().toString());
+        values.put("password", password.getText().toString());
+        int response = new HttpManager().post(HttpManager.FORM_TYPE.SIGNUP, values);
+        Log.i("!!!!! REGISTER", "" + response);
+        switch(response) {
+            case 201:
+                Log.i("!!!!! REGISTER", "Created!");
+                break;
+            case 409:
+                break;
+            default:
+                break;
         }
     }
 
