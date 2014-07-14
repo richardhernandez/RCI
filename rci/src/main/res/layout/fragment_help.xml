@@ -20,13 +20,15 @@ tools:context="com.example.rci.rci.HelpFragment">
     android:layout_centerHorizontal="true"
     android:textStyle="bold" />
 
+    <!-- List of Routers go below -->
     <ListView
-    android:layout_marginTop="50dp"
+    android:layout_marginTop="60dp"
     android:layout_width="fill_parent"
-    android:layout_height="375dp"
+    android:layout_height="430dp"
     android:id="@+id/router_list"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp" />
+    android:textColor="#ff000000"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp" />
 
     <Spinner
         android:layout_width="wrap_content"
@@ -34,11 +36,6 @@ tools:context="com.example.rci.rci.HelpFragment">
         android:id="@+id/spinner"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
-
-  <!--  <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="375dp"
-        android:layout_marginTop="50dp">  -->
 
 
     <!-- Block of text holding help info-->
@@ -55,7 +52,5 @@ tools:context="com.example.rci.rci.HelpFragment">
         android:layout_centerHorizontal="true"
         android:paddingRight="5dp"
         android:paddingLeft="5dp" />
-
-    <!-- </ScrollView>  -->
 
 </RelativeLayout>
