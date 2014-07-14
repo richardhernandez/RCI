@@ -50,7 +50,6 @@ public class LogInActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.activity_log_in);
         email = (EditText)findViewById(R.id.emailInputText);
         password = (EditText)findViewById(R.id.passwordInputText);
@@ -87,38 +86,12 @@ public class LogInActivity extends Activity {
         Map<String, String> values = new HashMap<String, String>(2);
         values.put("email", email.getText().toString());
         values.put("password", password.getText().toString());
-        int response = new HttpManager().post(HttpManager.FORM_TYPE.LOGIN, values);
-        if (response == 400) {
-            Toast.makeText(getApplicationContext(), "Logging In...", Toast.LENGTH_SHORT).show();
-
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("loggedIn", true);
-            editor.commit();
-
-            Intent intent = new Intent(LogInActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
-            Toast.makeText(getApplicationContext(), "Wrong Credentials", Toast.LENGTH_SHORT).show();
-        }
     }
 
     public void register(View view) {
         Map<String, String> values = new HashMap<String, String>(2);
         values.put("email", email.getText().toString());
         values.put("password", password.getText().toString());
-        int response = new HttpManager().post(HttpManager.FORM_TYPE.SIGNUP, values);
-        Log.i("!!!!! REGISTER", "" + response);
-        switch(response) {
-            case 201:
-                Log.i("!!!!! REGISTER", "Created!");
-                break;
-            case 409:
-                break;
-            default:
-                break;
-        }
     }
 
     @Override

@@ -14,87 +14,33 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.AbstractHttpMessage;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import com.loopj.android.http.*;
 
 /**
  * Created by richard on 7/10/14.
  */
-public class HttpManager implements AsyncTaskResponse {
-    private HttpExecuter executer;
+public class HttpManager {
+    private static final String BASE_URL = "http://54.210.12.229/api/";
 
-    public enum FORM_TYPE {
-        SIGNUP,
-        LOGIN,
-        SSID_PUT,
-        SSID_GET,
-        USERLIST
+    private static AsyncHttpClient client = new AsyncHttpClient();
+
+    public static void get(String url, RequestParams params, AsyncHttpResponseHandler handler) {
+        client.get(getAbsoluteUrl(url), params, handler);
     }
 
-    public HttpManager() {
-        this.executer = new HttpExecuter();
-        executer.delegate = this;
+    public static void post(String url, RequestParams params, AsyncHttpResponseHandler handler) {
+        client.post(getAbsoluteUrl(url), params, handler);
     }
 
-    public int post(FORM_TYPE form, Map<String, ? extends Object> entries) {
-        try {
-            String url = "http://54.210.12.229/";
-            switch (form) {
-                case SIGNUP:
-                    url += "signup.php";
-                    break;
-                case LOGIN:
-                    url += "login.php";
-                    break;
-                case SSID_PUT:
-                    // TODO this
-                    break;
-                default:
-                    return -1;
-            }
-
-            HttpPost post = new HttpPost(url);
-            List<NameValuePair> n = new ArrayList<NameValuePair>(entries.size());
-            for (String e : entries.keySet()) {
-                n.add(new BasicNameValuePair(e, entries.get(e).toString()));
-            }
-
-            post.setEntity(new UrlEncodedFormEntity(n));
-            return executer.execute(post).get().getStatusLine().getStatusCode();
-        }
-        catch (Exception e) {
-            Log.e("HttpManager.Post", e.getClass().getName() + ": " + e.getLocalizedMessage());
-            return -1;
-        }
-    }
-
-    @Override
-    public void processFinish(HttpResponse response) {
-
-    }
-
-    private class HttpExecuter extends AsyncTask<HttpRequestBase, Void, HttpResponse> {
-        public AsyncTaskResponse delegate;
-
-        @Override
-        protected HttpResponse doInBackground(HttpRequestBase... requests) {
-            try {
-                HttpClient client = new DefaultHttpClient();
-                return client.execute(requests[0]);
-            } catch (IOException e) {
-                Log.i("HttpExecuter", "Error happened here");
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(HttpResponse httpResponse) {
-            super.onPostExecute(httpResponse);
-            delegate.processFinish(httpResponse);
-        }
+    private static String getAbsoluteUrl(String url) {
+        return BASE_URL + url;
     }
 }

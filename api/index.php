@@ -80,7 +80,7 @@
 	});
 
 	// GETs
-	// Dump User table (TESTING ONLY FRIENDS)
+	// Dump User table (PLEASE REMOVE WHEN DONE TESTING)
 	$app->get('/api/user', function() use ($app) {
 		$phql = "SELECT * FROM User";
 		$users = $app->modelsManager->executeQuery($phql);
