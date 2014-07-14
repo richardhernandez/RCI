@@ -27,7 +27,8 @@
         android:id="@+id/messageText"
         android:layout_below="@+id/title_scan_results"
         android:layout_alignLeft="@+id/title_scan_results"
-        android:layout_alignStart="@+id/title_scan_results" />
+        android:layout_alignStart="@+id/title_scan_results"
+        android:paddingTop="10dp" />
 
     <TextView
         android:layout_width="250dp"
