@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -80,10 +82,13 @@ public class ScanFragment extends Fragment {
 
     private GraphView graphView;
     private LinearLayout layout;
-    private int num1, num6, num11;
 
     private ListView routerList;
     private WifiListAdapter adapter;
+
+    private TextView ssid_title;
+    private TextView channel_title;
+    private TextView power_title;
 
     /**
      * Use this factory method to create a new instance of
@@ -129,9 +134,6 @@ public class ScanFragment extends Fragment {
             mainWifi.setWifiEnabled(true);
         }
 
-        num1 = 0;
-        num6 = 0;
-        num11 = 0;
 
         graphView = new BarGraphView(getActivity(), "Router Channels Nearby");
         graphView.getGraphViewStyle().setNumHorizontalLabels(11);
@@ -153,6 +155,8 @@ public class ScanFragment extends Fragment {
     public void onPause() {
         super.onPause();
         Log.i("PAUSING!!!!!!!!", "");
+
+
         mainWifi = null;
         while (handler.hasMessages(0)) {
             handler.removeMessages(0);
@@ -211,6 +215,12 @@ public class ScanFragment extends Fragment {
         routerList.setAdapter(adapter);
         routerList.setVisibility(View.INVISIBLE);
         //routerList.setOnItemClickListener(getActivity());
+        ssid_title = (TextView)V.findViewById(R.id.ssid_title);
+        channel_title = (TextView)V.findViewById(R.id.channel_title);
+        power_title = (TextView)V.findViewById(R.id.power_title);
+        power_title.setVisibility(View.INVISIBLE);
+        ssid_title.setVisibility(View.INVISIBLE);
+        channel_title.setVisibility(View.INVISIBLE);
 
         //Chase advance Button
         advance = (Button)V.findViewById(R.id.options_button_adv);
@@ -220,6 +230,7 @@ public class ScanFragment extends Fragment {
         optCH = (TextView)V.findViewById(R.id.textView2);
         curCHnum = (TextView)V.findViewById(R.id.current_channel);
         optCHnum = (TextView)V.findViewById(R.id.optimal_channel);
+
         advance.setOnClickListener(new View.OnClickListener(){
             @Override
         public void onClick(View view) {
@@ -235,6 +246,10 @@ public class ScanFragment extends Fragment {
                 layout.setVisibility(View.INVISIBLE);
 
                 routerList.setVisibility(View.VISIBLE);
+
+                power_title.setVisibility(View.VISIBLE);
+                ssid_title.setVisibility(View.VISIBLE);
+                channel_title.setVisibility(View.VISIBLE);
             }
         });
 
@@ -253,6 +268,10 @@ public class ScanFragment extends Fragment {
                 layout.setVisibility(View.VISIBLE);
 
                 routerList.setVisibility(View.INVISIBLE);
+
+                power_title.setVisibility(View.INVISIBLE);
+                ssid_title.setVisibility(View.INVISIBLE);
+                channel_title.setVisibility(View.INVISIBLE);
             }
         });
 
