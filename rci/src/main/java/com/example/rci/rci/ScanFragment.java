@@ -70,7 +70,7 @@ public class ScanFragment extends Fragment {
 
     private WifiManager mainWifi;
     private WifiReceiver receiverWifi;
-    List<ScanResult> wifiList;
+    ArrayList<ScanResult> wifiList;
 
     StringBuilder sb = new StringBuilder();
     private final Handler handler = new Handler();
@@ -89,6 +89,8 @@ public class ScanFragment extends Fragment {
     private TextView ssid_title;
     private TextView channel_title;
     private TextView power_title;
+
+    private int numScans;
 
     /**
      * Use this factory method to create a new instance of
@@ -143,6 +145,7 @@ public class ScanFragment extends Fragment {
                 new GraphView.GraphViewData(11, 0)
         });
         graphView.addSeries(series);
+
         layout = (LinearLayout) getActivity().findViewById(R.id.graph1);
         //layout.addView(graphView);
 
@@ -211,9 +214,12 @@ public class ScanFragment extends Fragment {
         layout = (LinearLayout) getActivity().findViewById(R.id.graph1);
 
         routerList = (ListView) V.findViewById(R.id.router_list);
-        adapter = new WifiListAdapter(getActivity(), new ArrayList<ScanResult>());
+        wifiList = new ArrayList<ScanResult>();
+        //restore list here?
+        adapter = new WifiListAdapter(getActivity(), wifiList);
         routerList.setAdapter(adapter);
         routerList.setVisibility(View.INVISIBLE);
+        numScans = 0;
         //routerList.setOnItemClickListener(getActivity());
         ssid_title = (TextView)V.findViewById(R.id.ssid_title);
         channel_title = (TextView)V.findViewById(R.id.channel_title);
@@ -311,7 +317,15 @@ public class ScanFragment extends Fragment {
             mainWifi.startScan();
             setCurrChannel(receiverWifi.get());
             setOptChannel(receiverWifi.getOptChannel());
-            setWifiList(receiverWifi.getWifiList());
+
+            List<ScanResult> list = receiverWifi.getWifiList();
+            if (list != null && !list.isEmpty()) {
+                numScans++;
+                if (numScans == 1) {
+                    setWifiList(list);
+                }
+            }
+
             handler.postDelayed(scanRunnable, 1000);
         }
     };
@@ -332,18 +346,25 @@ public class ScanFragment extends Fragment {
         optChannelText.setText(t);
     }
 
-    private void setWifiList(List<ScanResult> wifiList) {
+    private void setWifiList(List<ScanResult> wifiListArg) {
         try {
-            ArrayList<String> listContent = new ArrayList<String>();
-
+            adapter = new WifiListAdapter(getActivity(), wifiListArg);
+            routerList.setAdapter(adapter);
+/*
+            //remove items no longer found from wifiList
             for (int i = 0; i < wifiList.size(); i++) {
-                ScanResult sr = wifiList.get(i);
-
-                listContent.add(sr.SSID + "\t" + getChannel(sr.frequency) + "\t" + sr.level);
+                if (!wifiListArg.contains(wifiList.get(i))) {
+                    wifiList.remove(wifiList.get(i));
+                }
+            }
+            //add new items to wifiList
+            for (int i = 0; i < wifiListArg.size(); i++) {
+                if (!wifiList.contains(wifiListArg.get(i))) {
+                    wifiList.add(wifiList.get(i));
+                }
             }
 
-            adapter = new WifiListAdapter(getActivity(), wifiList);
-            routerList.setAdapter(adapter);
+            adapter.notifyDataSetChanged(); */
         }
         catch (Exception e) {
             // Probably do something here

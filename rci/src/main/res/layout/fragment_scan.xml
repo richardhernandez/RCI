@@ -99,7 +99,8 @@
         android:layout_width="fill_parent"
         android:layout_height="275dp"
         android:id="@+id/graph1"
-        android:background="#FFFFFF" />
+        android:background="#FFFFFF"
+        android:layout_toRightOf="@+id/ssid_title" />
 
     <TextView
         android:layout_width="70dp"
@@ -143,9 +144,28 @@
         android:layout_width="fill_parent"
         android:layout_height="340dp"
         android:id="@+id/router_list"
-        android:background="#FFFFFF"/>
+        android:background="#FFFFFF"
+        android:visibility="invisible" />
 
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Channel Number"
+        android:id="@+id/textView3"
+        android:layout_below="@+id/graph1"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Number of Channels"
+        android:id="@+id/textView4"
+        android:layout_toLeftOf="@+id/graph1"
+        android:layout_below="@+id/textView2"
+        android:layout_alignBottom="@+id/graph1" />
 
 
 </RelativeLayout>
