@@ -101,7 +101,8 @@
         android:layout_height="275dp"
         android:id="@+id/graph1"
         android:background="#FFFFFF"
-        android:layout_toRightOf="@+id/ssid_title" />
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="5dp"/>
 
     <TextView
         android:layout_width="70dp"
@@ -160,16 +161,15 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Number of Networks"
         android:rotation="270"
-        android:gravity="center"
+        android:gravity="top"
         android:id="@+id/textView4"
-        android:layout_toLeftOf="@+id/graph1"
+        android:layout_alignLeft="@id/titleLogIn"
         android:layout_below="@+id/textView2"
-        android:layout_alignBottom="@+id/graph1"
-        android:paddingLeft="5dp" />
+        android:layout_marginTop="130dp" />
 
 
 </RelativeLayout>
