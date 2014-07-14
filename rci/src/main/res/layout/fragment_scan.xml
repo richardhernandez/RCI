@@ -101,8 +101,8 @@
         android:layout_height="275dp"
         android:id="@+id/graph1"
         android:background="#FFFFFF"
-        android:layout_marginLeft="45dp"
-        android:layout_marginRight="5dp"/>
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="25dp"/>
 
     <TextView
         android:layout_width="70dp"
@@ -169,7 +169,8 @@
         android:id="@+id/textView4"
         android:layout_alignLeft="@id/titleLogIn"
         android:layout_below="@+id/textView2"
-        android:layout_marginTop="130dp" />
+        android:layout_marginTop="130dp"
+        android:layout_marginLeft="-50dp"/>
 
 
 </RelativeLayout>
