@@ -87,8 +87,8 @@ public class HelpFragment extends Fragment implements AdapterView.OnItemSelected
 
 
         //ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity().getApplicationContext(), R.array.help_options, android.R.layout.simple_spinner_item);
-        ArrayAdapter adapterSpinner = ArrayAdapter.createFromResource(getActivity().getApplicationContext(), R.array.help_options, R.layout.spinner_item);
-        ArrayAdapter adapterRouterList = ArrayAdapter.createFromResource(getActivity().getApplicationContext(), R.array.router_hardware, android.R.layout.simple_list_item_1);
+        ArrayAdapter adapterSpinner = ArrayAdapter.createFromResource(getActivity(), R.array.help_options, R.layout.spinner_item);
+        ArrayAdapter adapterRouterList = ArrayAdapter.createFromResource(getActivity(), R.array.router_hardware, android.R.layout.simple_dropdown_item_1line);// R.layout.simple_list_item_1);
         routerList.setAdapter(adapterRouterList);
         spinner.setAdapter(adapterSpinner);
         spinner.setOnItemSelectedListener(this);
