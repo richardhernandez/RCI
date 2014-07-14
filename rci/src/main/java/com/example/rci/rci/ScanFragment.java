@@ -82,6 +82,8 @@ public class ScanFragment extends Fragment {
 
     private GraphView graphView;
     private LinearLayout layout;
+    private TextView numNetworksAxis;
+    private TextView channelNumAxis;
 
     private ListView routerList;
     private WifiListAdapter adapter;
@@ -236,6 +238,8 @@ public class ScanFragment extends Fragment {
         optCH = (TextView)V.findViewById(R.id.textView2);
         curCHnum = (TextView)V.findViewById(R.id.current_channel);
         optCHnum = (TextView)V.findViewById(R.id.optimal_channel);
+        channelNumAxis = (TextView)V.findViewById(R.id.textView3);
+        numNetworksAxis = (TextView)V.findViewById(R.id.textView4);
 
         advance.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -250,6 +254,8 @@ public class ScanFragment extends Fragment {
                 graphView.setVisibility(View.INVISIBLE);
                 layout = (LinearLayout) getActivity().findViewById(R.id.graph1);
                 layout.setVisibility(View.INVISIBLE);
+                channelNumAxis.setVisibility(View.INVISIBLE);
+                numNetworksAxis.setVisibility(View.INVISIBLE);
 
                 routerList.setVisibility(View.VISIBLE);
 
@@ -272,6 +278,8 @@ public class ScanFragment extends Fragment {
                 graphView.setVisibility(View.VISIBLE);
                 layout = (LinearLayout) getActivity().findViewById(R.id.graph1);
                 layout.setVisibility(View.VISIBLE);
+                channelNumAxis.setVisibility(View.VISIBLE);
+                numNetworksAxis.setVisibility(View.VISIBLE);
 
                 routerList.setVisibility(View.INVISIBLE);
 
