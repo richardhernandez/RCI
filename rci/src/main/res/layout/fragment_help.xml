@@ -1,13 +1,61 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.rci.rci.HelpFragment">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@drawable/background_gradient"
+tools:context="com.example.rci.rci.HelpFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+<!-- TODO: Update blank fragment layout -->
+
+    //SCAN RESULTS
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Help me pls" />
+    android:layout_width="350dp"
+    android:layout_height="50dp"
+    android:textSize="45sp"
+    android:text="How To"
+    android:id="@+id/title_how_to"
+    android:gravity="center"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:textStyle="bold" />
 
-</FrameLayout>
+    <ListView
+    android:layout_marginTop="50dp"
+    android:layout_width="fill_parent"
+    android:layout_height="375dp"
+    android:id="@+id/router_list"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+  <!--  <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="375dp"
+        android:layout_marginTop="50dp">  -->
+
+
+    <!-- Block of text holding help info-->
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="430dp"
+        android:layout_marginTop="20dp"
+        android:maxLines="2000"
+        android:scrollbars="vertical"
+        android:text="Help Text"
+        android:textSize="25dp"
+        android:id="@+id/helpTextView"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp" />
+
+    <!-- </ScrollView>  -->
+
+</RelativeLayout>
