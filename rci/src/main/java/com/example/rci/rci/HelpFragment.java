@@ -1,6 +1,7 @@
 package com.example.rci.rci;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +16,9 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -40,6 +44,7 @@ public class HelpFragment extends Fragment implements AdapterView.OnItemSelected
     private ListView routerList;
     TextView helpText;
     TextView spinnerText;
+    ArrayAdapter<LinkItem> mAdapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -88,10 +93,30 @@ public class HelpFragment extends Fragment implements AdapterView.OnItemSelected
 
         //ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity().getApplicationContext(), R.array.help_options, android.R.layout.simple_spinner_item);
         ArrayAdapter adapterSpinner = ArrayAdapter.createFromResource(getActivity(), R.array.help_options, R.layout.spinner_item);
-        ArrayAdapter adapterRouterList = ArrayAdapter.createFromResource(getActivity(), R.array.router_hardware, android.R.layout.simple_dropdown_item_1line);// R.layout.simple_list_item_1);
-        routerList.setAdapter(adapterRouterList);
+        //ArrayAdapter adapterRouterList = ArrayAdapter.createFromResource(getActivity(), R.array.router_hardware, android.R.layout.simple_dropdown_item_1line);// R.layout.simple_list_item_1);
+        //routerList.setAdapter(adapterRouterList);
         spinner.setAdapter(adapterSpinner);
         spinner.setOnItemSelectedListener(this);
+
+        List<LinkItem> items = new ArrayList<LinkItem>();
+        items.add(new LinkItem("3Com", "www.3com.com"));
+        items.add(new LinkItem("Apple", "www.Apple.com"));
+        items.add(new LinkItem("Netgear", "www.Netgear.com"));
+        // R.layout.row is a layout, that contains only one TextView
+        mAdapter = new ArrayAdapter<LinkItem>(getActivity(), android.R.layout.simple_dropdown_item_1line, items);
+
+        routerList.setAdapter(mAdapter);
+        routerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                String url = mAdapter.getItem(position).getLink();
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
 
         return V;
     }
