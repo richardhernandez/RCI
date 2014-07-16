@@ -99,9 +99,22 @@ public class HelpFragment extends Fragment implements AdapterView.OnItemSelected
         spinner.setOnItemSelectedListener(this);
 
         List<LinkItem> items = new ArrayList<LinkItem>();
-        items.add(new LinkItem("3Com", "www.3com.com"));
-        items.add(new LinkItem("Apple", "www.Apple.com"));
-        items.add(new LinkItem("Netgear", "www.Netgear.com"));
+        items.add(new LinkItem("3Com", "http://setuprouter.com/router/3com/3crwer200-75/manual-1328.pdf"));
+        items.add(new LinkItem("Apple", "http://manuals.info.apple.com/MANUALS/1000/MA1576/en_US/airport_extreme_5th_gen_setup.pdf"));
+        items.add(new LinkItem("Asus", "http://setuprouter.com/router/asus/rt-n10/manual-1095.pdf"));
+        items.add(new LinkItem("Belkin", "http://www.belkin.com/networking/manual/MAN_F9K1001_8820-00773_RevA01_N150_Router.pdf"));
+        items.add(new LinkItem("Buffalo", "http://www.danets.com/download/WHR-HP-G54-Manual.pdf"));
+        items.add(new LinkItem("Linksys", "http://www.cisco.com/c/dam/en/us/td/docs/routers/csbr/wrv54g/user/guide/wrv54g_ug.pdf"));
+        items.add(new LinkItem("Microsoft", "http://www.manualslib.com/manual/295598/Microsoft-Mn-500.html"));
+        items.add(new LinkItem("Motorola", "http://www.motorola.com/mdirect/manuals/br700_user_manual_e.pdf"));
+        items.add(new LinkItem("MSI", "http://faenl.msi.com/ftp/Networking/RG54SE%20+%20US54SE/Manuals/RG54SE_User%20Manual.pdf"));
+        items.add(new LinkItem("Netgear", "https://www.upc.nl/pdf/upc-handleiding-netgear-wnr2000.pdf"));
+        items.add(new LinkItem("Senao", "http://www.tcshop.nl/docs/senao/scb3220_usermanual.pdf"));
+        items.add(new LinkItem("SpeedTouch", "http://www.thinkbroadband.com/router-manuals/ST585_UserGuide.pdf"));
+        items.add(new LinkItem("Trendnet", "http://setuprouter.com/router/trendnet/tew-652brp/manual-813.pdf"));
+        items.add(new LinkItem("U.S. Robotics", "http://support.usr.com/support/5462/5462-files/5462-ug.pdf"));
+        items.add(new LinkItem("Zyxel", "http://www.winncom.com/pdf/zyxel_x-550_userguide.pdf"));
+
         // R.layout.row is a layout, that contains only one TextView
         mAdapter = new ArrayAdapter<LinkItem>(getActivity(), android.R.layout.simple_dropdown_item_1line, items);
 
