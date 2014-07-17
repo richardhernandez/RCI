@@ -90,9 +90,17 @@ public class LogInActivity extends Activity {
         values.put("email", email.getText().toString());
         values.put("password", password.getText().toString());
         // Log.i("!!!!!!!!!!", new HttpManager().getUserPassword(values.get("email")));
-        Intent i = new Intent(LogInActivity.this, MainActivity.class);
-        startActivity(i);
-        finish();
+        if(isLoggedIn())
+        {
+            Intent i = new Intent(LogInActivity.this, MainActivity.class);
+            startActivity(i);
+            finish();
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "Log in with Facebook or your RCI credentials", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void register(View view) {
@@ -131,5 +139,10 @@ public class LogInActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public boolean isLoggedIn() {
+        Session session = Session.getActiveSession();
+        return (session != null && session.isOpened());
     }
 }

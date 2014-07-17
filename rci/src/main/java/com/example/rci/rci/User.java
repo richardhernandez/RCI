@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Created by richard on 7/13/14.
  */
-public class User extends NetworkObject {
+/*public class User extends NetworkObject {
     private static User currentUser = null;
 
     public static User getCurrentUser() {
@@ -41,4 +41,4 @@ public class User extends NetworkObject {
     public String getPassword() {
         return attributes.get("password");
     }
-}
+}*/
