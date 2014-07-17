@@ -26,7 +26,7 @@
 		$phql = "INSERT INTO User (email, password) VALUES (:email:, :password:)";
 		$status = $app->modelsManager->executeQuery($phql, array(
 			'email' => $user->email,
-			'password' => password_hash($user->password, PASSWORD_BCRYPT)
+			'password' => $user->password //password_hash($user->password, PASSWORD_BCRYPT)
 		));
 
 		$response = new Phalcon\Http\Response();
@@ -96,6 +96,28 @@
 		}
 
 		echo json_encode($data);
+	});
+
+	// Kill me
+	$app->get('/api/user/{email}', function($email) use ($app) {
+		$phql = "SELECT * FROM User WHERE email=:email:";
+		$user = $app->modelsManager->executeQuery($phql, array(
+			'email' => $email
+		))->getFirst();
+
+		$response = new \Phalcon\Http\Response();
+
+		if ($user == false) {
+			$response->setJsonContent(array('status' => 'NOT-FOUND'));
+    	}
+    	else {
+    		$response->setJsonContent(array(
+    			'status' => 'FOUND',
+    			'password' => $user->getPassword()
+    		));
+   		}
+
+		return $response;
 	});
 
 	// Dump SSID table (PLEASE REMOVE WHEN DONE TESTING)

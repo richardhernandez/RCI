@@ -47,11 +47,11 @@ public class MainActivity extends Activity
         setContentView(R.layout.activity_main_activity2);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!prefs.getBoolean("loggedIn", false)) {
-            Intent intent = new Intent(MainActivity.this, LogInActivity.class);
-            startActivity(intent);
-            finish();
-        }
+//        if (!prefs.getBoolean("loggedIn", false)) {
+//            Intent intent = new Intent(MainActivity.this, LogInActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);

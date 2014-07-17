@@ -20,7 +20,10 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.android.Facebook;
 import com.facebook.*;
 import com.facebook.model.GraphUser;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
+import org.apache.http.Header;
 import org.apache.http.HttpStatus;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
@@ -81,11 +84,15 @@ public class LogInActivity extends Activity {
         });
     }
 
-    //Function to make login work
+    // Function to make login work
     public void login(View view) {
         Map<String, String> values = new HashMap<String, String>(2);
         values.put("email", email.getText().toString());
         values.put("password", password.getText().toString());
+        // Log.i("!!!!!!!!!!", new HttpManager().getUserPassword(values.get("email")));
+        Intent i = new Intent(LogInActivity.this, MainActivity.class);
+        startActivity(i);
+        finish();
     }
 
     public void register(View view) {
