@@ -1,6 +1,7 @@
 package com.example.rci.rci;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -10,6 +11,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -17,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,9 +128,19 @@ public class HelpFragment extends Fragment implements AdapterView.OnItemSelected
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 String url = mAdapter.getItem(position).getLink();
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
+                try
+                {
+                    Intent intentUrl = new Intent(Intent.ACTION_VIEW);
+                    intentUrl.setDataAndType(Uri.parse(url), "application/pdf");
+                    intentUrl.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    getActivity().startActivity(intentUrl);
+                }
+                catch (ActivityNotFoundException e)
+                {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                }
             }
         });
 
