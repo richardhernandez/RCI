@@ -75,8 +75,8 @@
         android:id="@+id/button1"
         android:onClick="login"
         android:layout_below="@+id/passwordInputText"
-        android:layout_toRightOf="@+id/authButton"
-        android:layout_marginLeft="49dp"
+        android:layout_toRightOf="@+id/button"
+        android:layout_marginLeft="100dp"
         android:layout_marginTop="58dp" />
 
     <com.facebook.widget.LoginButton
