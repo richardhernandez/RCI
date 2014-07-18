@@ -443,6 +443,20 @@ public class ScanFragment extends Fragment {
         }
 
         public List<ScanResult> getWifiList() {
+            //wifiList.remove()
+            // Get power level to make a threshold value of -75db
+            ArrayList<ScanResult> newWifiList = new ArrayList<ScanResult>();
+            for (int i = 0; i < wifiList.size(); i++)
+            {
+                ScanResult scanObj = wifiList.get(i);
+                int RSSI = scanObj.level;
+                if(Math.abs(RSSI) < 75)
+                {
+                    newWifiList.add(scanObj);
+                }
+            }
+            wifiList = newWifiList;
+
             return wifiList;
         }
 
