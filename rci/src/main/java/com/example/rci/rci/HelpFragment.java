@@ -3,6 +3,7 @@ package com.example.rci.rci;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -87,6 +88,8 @@ public class HelpFragment extends Fragment implements AdapterView.OnItemSelected
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View V = inflater.inflate(R.layout.fragment_help, container, false);
+
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         helpText = (TextView) V.findViewById(R.id.helpTextView);
         helpText.setMovementMethod(new ScrollingMovementMethod());

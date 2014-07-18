@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -36,7 +37,10 @@ import com.jjoe64.graphview.GraphViewSeries;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -174,6 +178,7 @@ public class ScanFragment extends Fragment {
         while (handler.hasMessages(0)) {
             handler.removeMessages(0);
         }
+
         super.onDestroy();
     }
 
@@ -190,12 +195,18 @@ public class ScanFragment extends Fragment {
         if(!mainWifi.isWifiEnabled()) {
             mainWifi.setWifiEnabled(true);
         }
+
+        //** TESTING RESTORE LIST
+
+        //**/
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View V = inflater.inflate(R.layout.fragment_scan, container, false);
+
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         scan = (Button)V.findViewById(R.id.scan_scannow);
         scan.setOnClickListener(new View.OnClickListener() {
@@ -215,7 +226,7 @@ public class ScanFragment extends Fragment {
 
         routerList = (ListView) V.findViewById(R.id.router_list);
         wifiList = new ArrayList<ScanResult>();
-        //restore list here?
+
         adapter = new WifiListAdapter(getActivity(), wifiList);
         routerList.setAdapter(adapter);
         routerList.setVisibility(View.INVISIBLE);
@@ -438,6 +449,19 @@ public class ScanFragment extends Fragment {
         }
 
         public List<ScanResult> getWifiList() {
+            //wifiList.remove()
+            // Get power level to make a threshold value of -75db
+            ArrayList<ScanResult> newWifiList = new ArrayList<ScanResult>();
+            if (wifiList != null && !wifiList.isEmpty()) {
+                for (int i = 0; i < wifiList.size(); i++) {
+                    ScanResult scanObj = wifiList.get(i);
+                    int RSSI = scanObj.level;
+                    if (Math.abs(RSSI) < 75) {
+                        newWifiList.add(scanObj);
+                    }
+                }
+                wifiList = newWifiList;
+            }
             return wifiList;
         }
 

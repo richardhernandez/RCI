@@ -2,6 +2,7 @@ package com.example.rci.rci;
 
 import android.app.Activity;
 import android.app.ListFragment;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -86,6 +87,8 @@ public class MessagesListFragment extends ListFragment implements AbsListView.On
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_messageslist, container, false);
+
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
@@ -54,6 +55,8 @@ public class LogInActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         setContentView(R.layout.activity_log_in);
         email = (EditText)findViewById(R.id.emailInputText);
         password = (EditText)findViewById(R.id.passwordInputText);
@@ -96,8 +99,16 @@ public class LogInActivity extends Activity {
 
     private void launch() {
         Intent i = new Intent(LogInActivity.this, MainActivity.class);
-        startActivity(i);
-        finish();
+        if(isLoggedIn())
+        {
+            startActivity(i);
+            finish();
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "Log in with Facebook or your RCI credentials", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void failure() {
@@ -136,6 +147,11 @@ public class LogInActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public boolean isLoggedIn() {
+        Session session = Session.getActiveSession();
+        return (session != null && session.isOpened());
     }
 
     private class Access extends AsyncTask<Integer, Void, Boolean> {

@@ -1,6 +1,7 @@
 package com.example.rci.rci;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -75,6 +76,7 @@ public class Messages extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         // Pull messages from server here per person
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         View V = inflater.inflate(R.layout.fragment_messages, container, false);
 
