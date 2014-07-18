@@ -3,6 +3,7 @@ package com.example.rci.rci;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
@@ -20,21 +21,21 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.android.Facebook;
 import com.facebook.*;
 import com.facebook.model.GraphUser;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 
-import org.apache.http.Header;
-import org.apache.http.HttpStatus;
-import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
-import java.util.AbstractMap;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -86,19 +87,21 @@ public class LogInActivity extends Activity {
 
     // Function to make login work
     public void login(View view) {
-        Map<String, String> values = new HashMap<String, String>(2);
-        values.put("email", email.getText().toString());
-        values.put("password", password.getText().toString());
-        // Log.i("!!!!!!!!!!", new HttpManager().getUserPassword(values.get("email")));
+        new Access().execute(0);
+    }
+
+    public void register(View view) {
+        new Access().execute(1);
+    }
+
+    private void launch() {
         Intent i = new Intent(LogInActivity.this, MainActivity.class);
         startActivity(i);
         finish();
     }
 
-    public void register(View view) {
-        Map<String, String> values = new HashMap<String, String>(2);
-        values.put("email", email.getText().toString());
-        values.put("password", password.getText().toString());
+    private void failure() {
+        Log.e(this.getClass().getName(), "!!! Login or registration failed !!!");
     }
 
     @Override
@@ -106,6 +109,7 @@ public class LogInActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
     }
+
     //Function to make facebook login work
     public void PullFacebookData(View view) {
         email.setText("gburdell@gatech.edu");
@@ -130,6 +134,52 @@ public class LogInActivity extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private class Access extends AsyncTask<Integer, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(Integer... mode) {
+            Map<String, String> values = new HashMap<String, String>(2);
+            values.put("email", email.getText().toString());
+            values.put("password", password.getText().toString());
+            String url = "http://54.210.12.229/api/";
+            HttpResponse response;
+            Boolean success = false;
+            switch (mode[0]) {
+                case 0:
+                    url += "login";
+                    break;
+                case 1:
+                    url += "user";
+                    break;
+                default:
+                    break;
+            }
+
+            try {
+                response = HttpManager.makeRequest(url, values);
+                int code = response.getStatusLine().getStatusCode();
+                if (code == 200 || code == 201) {
+                    success = true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return success;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            super.onPostExecute(success);
+            if (success) {
+                launch();
+            }
+            else {
+                failure();
+            }
+        }
     }
 }

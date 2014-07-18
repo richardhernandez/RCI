@@ -160,8 +160,7 @@ public class ScanFragment extends Fragment {
     public void onPause() {
         super.onPause();
         Log.i("PAUSING!!!!!!!!", "");
-
-
+        getActivity().unregisterReceiver(receiverWifi);
         mainWifi = null;
         while (handler.hasMessages(0)) {
             handler.removeMessages(0);
@@ -175,7 +174,6 @@ public class ScanFragment extends Fragment {
         while (handler.hasMessages(0)) {
             handler.removeMessages(0);
         }
-        getActivity().unregisterReceiver(receiverWifi);
         super.onDestroy();
     }
 

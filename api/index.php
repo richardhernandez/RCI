@@ -26,7 +26,7 @@
 		$phql = "INSERT INTO User (email, password) VALUES (:email:, :password:)";
 		$status = $app->modelsManager->executeQuery($phql, array(
 			'email' => $user->email,
-			'password' => $user->password //password_hash($user->password, PASSWORD_BCRYPT)
+			'password' => password_hash($user->password, PASSWORD_BCRYPT)
 		));
 
 		$response = new Phalcon\Http\Response();
@@ -42,6 +42,34 @@
 			}
 
 			$response->setJsonContent(array('status' => 'ERROR', 'messages' => $errors));
+		}
+
+		return $response;
+	});
+
+	// Authorizes a user's login attempt
+	$app->post('/api/login', function() use ($app) {
+		$user = $app->request->getJsonRawBody();
+		$phql = "SELECT * FROM User WHERE email=:email:";
+		$status = $app->modelsManager->executeQuery($phql, array(
+			'email' => $user->email
+		))->getFirst();
+
+
+		$response = new Phalcon\Http\Response();
+		if (password_verify($user->password, $status->getPassword()) == true) {
+			$response->setStatusCode(200, "OK");
+			$response->setJsonContent(array(
+				'status' => 'OK',
+				'email' => $user->email
+			));
+		}
+		else {
+			$response->setStatusCode(401, "Unauthorized");
+			$response->setJsonContent(array(
+				'status' => 'ERROR',
+				'messages' => 'Incorrect password or username'
+			));
 		}
 
 		return $response;
@@ -66,7 +94,7 @@
 			$response->setJsonContent(array('status' => 'OK', 'data' => $ssid));
 		}
 		else {
-			$response->setStatusCode(409, "CONFLICT");
+			$response->setStatusCode(409, "Conflict");
 			$errors = array();
 			foreach ($status->getMessages() as $message) {
 				$errors[] = $message->getMessage();
@@ -90,7 +118,7 @@
 			foreach ($users as $User) {
 				$data[] = array(
 					'email' => $User->getEmail(),
-					'password' => $User->getPassword(),
+					'password' => $User->getPassword()
 				);
 			}
 		}
@@ -98,7 +126,8 @@
 		echo json_encode($data);
 	});
 
-	// Kill me
+	// Returns a user's password
+	// TESTING ONLY PLEASE DELETE
 	$app->get('/api/user/{email}', function($email) use ($app) {
 		$phql = "SELECT * FROM User WHERE email=:email:";
 		$user = $app->modelsManager->executeQuery($phql, array(
@@ -108,9 +137,11 @@
 		$response = new \Phalcon\Http\Response();
 
 		if ($user == false) {
+			$response->setStatusCode(404, "Not Found");
 			$response->setJsonContent(array('status' => 'NOT-FOUND'));
     	}
     	else {
+    		$response->setStatusCode(200, "OK");
     		$response->setJsonContent(array(
     			'status' => 'FOUND',
     			'password' => $user->getPassword()
