@@ -26,7 +26,7 @@
 		$phql = "INSERT INTO User (email, password) VALUES (:email:, :password:)";
 		$status = $app->modelsManager->executeQuery($phql, array(
 			'email' => $user->email,
-			'password' => password_hash($user->password, PASSWORD_BCRYPT)
+			'password' => password_hash("".$user->password, PASSWORD_BCRYPT)
 		));
 
 		$response = new Phalcon\Http\Response();
@@ -174,6 +174,29 @@
 					'adminPassword' => $ssid->getAdminPassword(),
 					'gLat' => $ssid->getGlat(),
 					'gLong' => $ssid->getGlong(),
+					'email' => $ssid->getEmail()
+				);
+			}
+		}
+
+		echo json_encode($data);
+	});
+
+	$app->get('/api/email/{glat}/{glong}', function($glat, $glong) use ($app) {
+		$phql = "SELECT * FROM SSID WHERE (gLat BETWEEN :a1: AND :a2:) AND (gLong BETWEEN :o1: AND :o2:)";
+		$distance = 0.000449;
+		$ssids = $app->modelsManager->executeQuery($phql, array(
+			'a1' => $glat - $distance,
+			'a2' => $glat + $distance,
+			'o1' => $glong - $distance,
+			'o2' => $glong + $distance
+		));
+
+		$data = array();
+		if (!empty($ssids)) {
+			foreach ($ssids as $ssid) {
+				$data[] = array(
+					'ssid' => $ssid->getSsid(),
 					'email' => $ssid->getEmail()
 				);
 			}
