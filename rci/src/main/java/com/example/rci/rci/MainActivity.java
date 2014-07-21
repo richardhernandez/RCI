@@ -80,11 +80,11 @@ public class MainActivity extends Activity
                 //newFragment = new Messages();
                 newFragment = new MessagesListFragment();
                 break;
+//            case 2:
+//                newFragment = new Fragment();
+//                Toast.makeText(getApplicationContext(), "Not implemented yet", Toast.LENGTH_SHORT).show();
+//                break;
             case 2:
-                newFragment = new Fragment();
-                Toast.makeText(getApplicationContext(), "Not implemented yet", Toast.LENGTH_SHORT).show();
-                break;
-            case 3:
                 newFragment = new HelpFragment();
                 break;
         }
