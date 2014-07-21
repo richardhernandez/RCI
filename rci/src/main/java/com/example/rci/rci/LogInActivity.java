@@ -48,6 +48,7 @@ public class LogInActivity extends Activity {
     private Button login;
     private String APP_ID;
     private Facebook fb;
+    private String at = "@";
     //private LogInFragment logInFragment;
 
     @Override
@@ -155,6 +156,15 @@ public class LogInActivity extends Activity {
         @Override
         protected Boolean doInBackground(Integer... mode) {
             Map<String, String> values = new HashMap<String, String>(2);
+            if(email.getText().toString().contains(at))
+            {
+                Toast.makeText(getApplicationContext(), "Valid email", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), "Not valid email", Toast.LENGTH_SHORT).show();
+            }
+
             values.put("email", email.getText().toString());
             values.put("password", password.getText().toString());
             String url = "http://54.210.12.229/api/";
