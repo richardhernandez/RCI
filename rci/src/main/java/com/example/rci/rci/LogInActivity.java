@@ -50,7 +50,8 @@ public class LogInActivity extends Activity {
     private Button login;
     private String APP_ID;
     private Facebook fb;
-    private String at = "@";
+    private boolean logInCheck = false;
+    private boolean registerCheck = false;
     //private LogInFragment logInFragment;
 
     @Override
@@ -93,14 +94,21 @@ public class LogInActivity extends Activity {
     // Function to make login work
     public void login(View view) {
         new Access().execute(0);
+        logInCheck = true;
     }
 
     public void register(View view) {
         new Access().execute(1);
+        registerCheck = true;
     }
 
     private void launch() {
-        if(isLoggedIn()) {
+        if (registerCheck)
+        {
+            Toast.makeText(getApplicationContext(), "You Registered your RCI credentials", Toast.LENGTH_SHORT).show();
+            registerCheck = false;
+        }
+        else if(isLoggedIn() || logInCheck) {
             Intent i = new Intent(LogInActivity.this, MainActivity.class);
             startActivity(i);
             finish();
@@ -158,17 +166,8 @@ public class LogInActivity extends Activity {
         @Override
         protected Boolean doInBackground(Integer... mode) {
             Map<String, String> values = new HashMap<String, String>(2);
-            Pattern pattern = Pattern.compile("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}");
-            Matcher mat = pattern.matcher(email.getText().toString());
-            if(mat.matches())
-            {
-                values.put("email", email.getText().toString());
-                values.put("password", password.getText().toString());
-            }
-            else
-            {
-
-            }
+            values.put("email", email.getText().toString());
+            values.put("password", password.getText().toString());
             String url = "http://54.210.12.229/api/";
             HttpResponse response;
             Boolean success = false;
