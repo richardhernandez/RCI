@@ -162,15 +162,13 @@ public class LogInActivity extends Activity {
             Matcher mat = pattern.matcher(email.getText().toString());
             if(mat.matches())
             {
-                Toast.makeText(getApplicationContext(), "Valid email", Toast.LENGTH_SHORT).show();
+                values.put("email", email.getText().toString());
+                values.put("password", password.getText().toString());
             }
             else
             {
-                Toast.makeText(getApplicationContext(), "Not valid email", Toast.LENGTH_SHORT).show();
-            }
 
-            values.put("email", email.getText().toString());
-            values.put("password", password.getText().toString());
+            }
             String url = "http://54.210.12.229/api/";
             HttpResponse response;
             Boolean success = false;
@@ -194,7 +192,6 @@ public class LogInActivity extends Activity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             return success;
         }
 
