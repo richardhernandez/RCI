@@ -61,9 +61,9 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 19 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="GraphView-3.1.2" level="project" />
     <orderEntry type="library" exported="" name="support-v4-19.1.0" level="project" />
     <orderEntry type="library" exported="" name="twilio-java-sdk-3.4.5-jar-with-dependencies" level="project" />
+    <orderEntry type="library" exported="" name="GraphView-3.1.2" level="project" />
     <orderEntry type="library" exported="" name="support-v13-19.1.0" level="project" />
     <orderEntry type="module" module-name="facebook" exported="" />
   </component>
