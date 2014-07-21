@@ -42,7 +42,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class LogInActivity extends Activity {
     private EditText email;
     private EditText password;
@@ -98,14 +97,12 @@ public class LogInActivity extends Activity {
     }
 
     private void launch() {
-        Intent i = new Intent(LogInActivity.this, MainActivity.class);
-        if(isLoggedIn())
-        {
+        if(isLoggedIn()) {
+            Intent i = new Intent(LogInActivity.this, MainActivity.class);
             startActivity(i);
             finish();
         }
-        else
-        {
+        else {
             Toast.makeText(getApplicationContext(), "Log in with Facebook or your RCI credentials", Toast.LENGTH_SHORT).show();
         }
 

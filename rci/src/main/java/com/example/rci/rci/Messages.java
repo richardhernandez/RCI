@@ -13,6 +13,9 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.util.Collection;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,7 +40,6 @@ public class Messages extends Fragment {
     private EditText _message;
 
     private OnFragmentInteractionListener mListener;
-
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.

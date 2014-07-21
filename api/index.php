@@ -57,18 +57,27 @@
 
 
 		$response = new Phalcon\Http\Response();
-		if (password_verify($user->password, $status->getPassword()) == true) {
-			$response->setStatusCode(200, "OK");
-			$response->setJsonContent(array(
-				'status' => 'OK',
-				'email' => $user->email
-			));
+		if ($status) {
+			if (password_verify($user->password, $status->getPassword()) == true) {
+				$response->setStatusCode(200, "OK");
+				$response->setJsonContent(array(
+					'status' => 'OK',
+					'email' => $user->email
+				));
+			}
+			else {
+				$response->setStatusCode(401, "Unauthorized");
+				$response->setJsonContent(array(
+					'status' => 'ERROR',
+					'messages' => 'Incorrect password'
+				));
+			}
 		}
 		else {
 			$response->setStatusCode(401, "Unauthorized");
 			$response->setJsonContent(array(
 				'status' => 'ERROR',
-				'messages' => 'Incorrect password or username'
+				'messages' => 'Email not found'
 			));
 		}
 
