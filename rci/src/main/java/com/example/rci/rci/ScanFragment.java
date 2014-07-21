@@ -85,6 +85,8 @@ public class ScanFragment extends Fragment {
     private static int stop = 0;
 
     private GraphView graphView;
+    GraphViewSeries series;
+    int maxNum = 0;
     private LinearLayout layout;
     private TextView numNetworksAxis;
     private TextView channelNumAxis;
@@ -213,6 +215,7 @@ public class ScanFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 stop = 0;
+                numScans = 0;
                 Toast.makeText(getActivity().getApplicationContext(), "Scanning", Toast.LENGTH_SHORT).show();
                 mainWifi.startScan();
                 startScanning();
@@ -332,13 +335,24 @@ public class ScanFragment extends Fragment {
             getActivity().registerReceiver(receiverWifi, new IntentFilter(
                     WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
             mainWifi.startScan();
-            setCurrChannel(receiverWifi.get());
-            setOptChannel(receiverWifi.getOptChannel());
 
             List<ScanResult> list = receiverWifi.getWifiList();
             if (list != null && !list.isEmpty()) {
                 numScans++;
-                if (numScans == 1) {
+                if (numScans == 5) {
+                    setCurrChannel(receiverWifi.get());
+                    setOptChannel(receiverWifi.getOptChannel());
+                    graphView.setManualYAxisBounds(maxNum, 0);
+                    graphView.getGraphViewStyle().setNumVerticalLabels(maxNum + 1);
+                    graphView.removeAllSeries();
+                    graphView.addSeries(series);
+                    layout = (LinearLayout) getActivity().findViewById(R.id.graph1);
+                    try {
+                        layout.addView(graphView);
+                    }
+                    catch (Exception e) {
+                        Log.i("EXCEPTION!!!!!!!!", "");
+                    }
                     setWifiList(list);
                 }
             }
@@ -396,7 +410,6 @@ public class ScanFragment extends Fragment {
         private int fq;
         private ArrayList<Integer> channels;
         private int optChannel;
-        private boolean shouldscan = true;
 
         public void onReceive(Context c, Intent intent) {
             if (mainWifi == null) return;  // god bless
@@ -417,10 +430,8 @@ public class ScanFragment extends Fragment {
                 }
             }
 
-            //if (shouldscan && wifiList.size()!=0) {
-                optChannel = getOptimalChannel(channels);
-                shouldscan = false;
-            //}
+            optChannel = getOptimalChannel(channels);
+
 
         }
 
@@ -544,7 +555,7 @@ public class ScanFragment extends Fragment {
         int num9 = 0;
         int num10 = 0;
         int num11 = 0;
-        int maxNum = 0;
+        //int maxNum = 0;
 
         // Get number of access points on channels 1, 6, 11
         for (int i = 0; i < channels.size(); i++) {
@@ -590,7 +601,7 @@ public class ScanFragment extends Fragment {
         maxNum = Math.max(Math.max(Math.max(Math.max(Math.max(maxNum, num7), num8), num9), num10), num11);
 
         //set graph here
-        GraphViewSeries series = new GraphViewSeries("graphViewSeries", null, new GraphView.GraphViewData[]{
+        series = new GraphViewSeries("graphViewSeries", null, new GraphView.GraphViewData[]{
                 new GraphView.GraphViewData(1, num1),
                 new GraphView.GraphViewData(2, num2),
                 new GraphView.GraphViewData(3, num3),
@@ -604,6 +615,7 @@ public class ScanFragment extends Fragment {
                 new GraphView.GraphViewData(11, num11)
 
         });
+/*
         graphView.setManualYAxisBounds(maxNum, 0);
         graphView.getGraphViewStyle().setNumVerticalLabels(maxNum + 1);
         graphView.removeAllSeries();
@@ -614,7 +626,7 @@ public class ScanFragment extends Fragment {
         }
         catch (Exception e) {
             Log.i("EXCEPTION!!!!!!!!", "");
-        }
+        }*/
 
 
         return optChannel;
