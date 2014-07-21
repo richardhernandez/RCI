@@ -2,6 +2,7 @@ package com.example.rci.rci;
 
 import android.app.Activity;
 import android.app.ListFragment;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -102,6 +103,12 @@ public class MessagesListFragment extends ListFragment implements AbsListView.On
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //SmsSender;
 
+                Intent intentEmail = new Intent(Intent.ACTION_SEND);
+                intentEmail.putExtra(Intent.EXTRA_EMAIL, new String[]{"your.email@gmail.com"});
+                intentEmail.putExtra(Intent.EXTRA_SUBJECT, "your subject");
+                intentEmail.putExtra(Intent.EXTRA_TEXT, "message body");
+                intentEmail.setType("message/rfc822");
+                startActivity(Intent.createChooser(intentEmail, "Choose an email provider :"));
 
             }
             });

@@ -201,6 +201,7 @@ public class LogInActivity extends Activity {
                 launch();
             }
             else {
+                Toast.makeText(getApplicationContext(), "Log in with Facebook or your RCI credentials", Toast.LENGTH_SHORT).show();
                 failure();
             }
         }
