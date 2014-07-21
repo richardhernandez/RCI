@@ -343,7 +343,7 @@ public class ScanFragment extends Fragment {
                 }
             }
 
-            handler.postDelayed(scanRunnable, 1000);
+            handler.postDelayed(scanRunnable, 100);
         }
     };
 
@@ -396,6 +396,7 @@ public class ScanFragment extends Fragment {
         private int fq;
         private ArrayList<Integer> channels;
         private int optChannel;
+        private boolean shouldscan = true;
 
         public void onReceive(Context c, Intent intent) {
             if (mainWifi == null) return;  // god bless
@@ -405,8 +406,9 @@ public class ScanFragment extends Fragment {
             wifiList = mainWifi.getScanResults();
             channels = new ArrayList<Integer>();
 
-            for(int i = 0; i < wifiList.size(); i++) {
-                ScanResult sr = wifiList.get(i);
+            List<ScanResult> list = getWifiList();
+            for(int i = 0; i < list.size(); i++) {
+                ScanResult sr = list.get(i);
                 connections.add(sr.SSID);
                 channels.add(getChannel(sr.frequency));
                 //Toast.makeText(getActivity().getApplicationContext(), connections.get(i), Toast.LENGTH_SHORT).show();
@@ -415,7 +417,11 @@ public class ScanFragment extends Fragment {
                 }
             }
 
-            optChannel = getOptimalChannel(channels);
+            //if (shouldscan && wifiList.size()!=0) {
+                optChannel = getOptimalChannel(channels);
+                shouldscan = false;
+            //}
+
         }
 
         public String get() {
