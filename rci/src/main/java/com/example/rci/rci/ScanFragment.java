@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -99,6 +102,9 @@ public class ScanFragment extends Fragment {
     private TextView power_title;
 
     private int numScans;
+
+    private LocationManager locationManager;
+    String provider;
 
     /**
      * Use this factory method to create a new instance of
@@ -347,13 +353,32 @@ public class ScanFragment extends Fragment {
                     graphView.removeAllSeries();
                     graphView.addSeries(series);
                     layout = (LinearLayout) getActivity().findViewById(R.id.graph1);
+                    try { layout.addView(graphView); }
+                    catch (Exception e) { Log.i("EXCEPTION adding graphview to layout.. this is normal?", ""); }
+                    setWifiList(list);
                     try {
-                        layout.addView(graphView);
+                        // Getting LocationManager object
+                        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+                        // Creating an empty criteria object
+                        Criteria criteria = new Criteria();
+
+                        // Getting the name of the provider that meets the criteria
+                        provider = locationManager.getBestProvider(criteria, false);
+
+                        if (provider != null && !provider.equals("")) {
+
+                            // Get the location from the given provider
+                            Location location = locationManager.getLastKnownLocation(provider);
+                            Toast.makeText(getActivity(), "" +location.getLatitude() +", " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+                            Log.i("Coodrinates: "+location.getLatitude() +", " + location.getLongitude(), "");
+                        } else {
+                            Toast.makeText(getActivity(), "No Provider Found", Toast.LENGTH_SHORT).show();
+                        }
                     }
                     catch (Exception e) {
-                        Log.i("EXCEPTION!!!!!!!!", "");
+                        Toast.makeText(getActivity(), "Location can't be retrieved", Toast.LENGTH_SHORT).show();
                     }
-                    setWifiList(list);
                 }
             }
 
