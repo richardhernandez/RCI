@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
 
 import com.example.rci.rci.dummy.DummyContent;
@@ -25,10 +27,10 @@ import com.example.rci.rci.dummy.DummyContent;
  * Large screen devices (such as tablets) are supported by replacing the ListView
  * with a GridView.
  * <p />
- * Activities containing this fragment MUST implement the {@link Callbacks}
+ * Activities containing this fragment MUST implement the
  * interface.
  */
-public class MessagesListFragment extends ListFragment implements AbsListView.OnItemClickListener {
+public class MessagesListFragment extends Fragment implements OnItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,7 +46,7 @@ public class MessagesListFragment extends ListFragment implements AbsListView.On
     /**
      * The fragment's ListView/GridView.
      */
-    private AbsListView mListView;
+    private ListView mListView;
 
     /**
      * The Adapter which will be used to populate the ListView/GridView with
@@ -80,8 +82,6 @@ public class MessagesListFragment extends ListFragment implements AbsListView.On
 
         // TODO: Change Adapter to display your content
         //mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity(), R.array.friends, android.R.layout.simple_list_item_1);
-        setListAdapter(adapter);
         // getListView().setOnItemClickListener(this);
     }
 
@@ -92,27 +92,12 @@ public class MessagesListFragment extends ListFragment implements AbsListView.On
 
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+
+        mAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.friends, android.R.layout.simple_list_item_1);
         // Set the adapter
-        mListView = (AbsListView) view.findViewById(android.R.id.list);
-        ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
-
-        // Set OnItemClickListener so we can be notified on item clicks
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //SmsSender;
-
-                Intent intentEmail = new Intent(Intent.ACTION_SEND);
-                intentEmail.putExtra(Intent.EXTRA_EMAIL, new String[]{"your.email@gmail.com"});
-                intentEmail.putExtra(Intent.EXTRA_SUBJECT, "your subject");
-                intentEmail.putExtra(Intent.EXTRA_TEXT, "message body");
-                intentEmail.setType("message/rfc822");
-                startActivity(Intent.createChooser(intentEmail, "Choose an email provider :"));
-
-            }
-            });
-
+        mListView = (ListView) view.findViewById(android.R.id.list);
+        mListView.setAdapter(mAdapter);
+        mListView.setOnItemClickListener(this);
         return view;
     }
 
@@ -136,11 +121,15 @@ public class MessagesListFragment extends ListFragment implements AbsListView.On
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (null != mListener) {
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
-        }
+
+        // Notify the active callbacks interface (the activity, if the
+        // fragment is attached to one) that an item has been selected.
+        Intent intentEmail = new Intent(Intent.ACTION_SEND);
+        intentEmail.putExtra(Intent.EXTRA_EMAIL, new String[]{"your.email@gmail.com"});
+        intentEmail.putExtra(Intent.EXTRA_SUBJECT, "your subject");
+        intentEmail.putExtra(Intent.EXTRA_TEXT, "message body");
+        intentEmail.setType("message/rfc822");
+        startActivity(Intent.createChooser(intentEmail, "Choose an email provider :"));
     }
 
     /**
@@ -155,6 +144,9 @@ public class MessagesListFragment extends ListFragment implements AbsListView.On
             ((TextView) emptyView).setText(emptyText);
         }
     }
+
+
+
 
     /**
     * This interface must be implemented by activities that contain this
