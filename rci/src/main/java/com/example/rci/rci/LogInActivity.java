@@ -41,6 +41,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LogInActivity extends Activity {
     private EditText email;
@@ -156,7 +158,9 @@ public class LogInActivity extends Activity {
         @Override
         protected Boolean doInBackground(Integer... mode) {
             Map<String, String> values = new HashMap<String, String>(2);
-            if(email.getText().toString().contains(at))
+            Pattern pattern = Pattern.compile("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}");
+            Matcher mat = pattern.matcher(email.getText().toString());
+            if(mat.matches())
             {
                 Toast.makeText(getApplicationContext(), "Valid email", Toast.LENGTH_SHORT).show();
             }
